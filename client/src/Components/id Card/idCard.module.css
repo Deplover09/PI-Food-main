@@ -1,0 +1,141 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: 120vh;
+  background-image: url("https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"); 
+  background-position: center; 
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  scroll-behavior: smooth;
+  background-attachment: fixed;
+}
+
+.subContainer {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  height: 850px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  background: rgba(233, 228, 228, 0.651);
+  margin-top: 60px;
+  margin-bottom: 20px;
+  margin-left: 150px;
+  margin-right: 150px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+  box-shadow: 0px 0px 30px 2px rgb(44, 43, 43);
+  font-family: 'Dosis', sans-serif;
+  font-size: 200;
+  border-color: rgb(227, 230, 227);
+  border-style: solid;
+  width: 1300px;
+  height:800px;   
+}
+
+.image {
+  /* align-self: center; */
+  margin-top: 8px;
+  border-width: 3px;
+  border-color: whitesmoke;
+  border-style: solid;
+  width: 600px;
+  height: 380px;
+  position: absolute;
+  left: 150px;
+  bottom: 350px;
+}
+
+.healthContainer{
+  position: absolute;
+  right: 700px;
+  top: 180px;
+
+}
+
+.idContainer{
+  position: absolute;
+  right: 750px;
+  top: 100px;
+}
+
+.dietsContainer{
+  position: absolute;
+  right: 460px;
+  top: 260px;
+}
+
+.typesContiner{
+  position: absolute;
+  right: 560px;
+  top: 350px;
+}
+
+.stepsContainer{
+  position: absolute;
+  right: 170px;
+  top: 430px;
+  width: 650px;
+}
+
+.summaryContainer{
+  position: absolute;
+  bottom:150px;
+  width: 1300px;
+}
+
+.mainTitle {
+  align-self: left;
+}
+
+.subTitle {
+  margin-left: 3px;
+}
+
+.info {
+  margin-left: 8px;
+  margin-right: 8px;
+  text-justify: auto;
+}
+
+.diets {
+  list-style-type: none;
+}
+
+.boxButton {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  position: absolute;
+  left: 10px;
+}
+.button {
+  background-color: rgb(0, 0, 0);
+  flex-direction: column;
+  color: rgb(255, 255, 255);
+  font-size: 25px;
+  font-family: Lato, Arial, Helvetica, sans-serif;
+  border-radius: 9999px;
+  border: rgb(0, 0, 0) solid 3px;
+  padding: 25px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  margin-top: 5px;
+
+}
+
+.button:hover {
+  background-color: #fff;
+  color: #000000;
+  transition-delay: 0.2s;
+  transition: 0.8s;
+}
