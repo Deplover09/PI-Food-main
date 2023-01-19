@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 export default function landingPage(){
     return(
         <div className={styles.landingContainer}>
-          <div className={styles.logo}></div>
           <div className= {styles.welcome}>
             <h1 > Welcome to my Pi </h1>
             </div> 

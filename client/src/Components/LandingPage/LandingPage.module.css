@@ -11,15 +11,7 @@
   background-attachment: fixed;
   background-size: cover;
 }
-.logo{
-  position: absolute;
-  background-image: url("../../images/logo-white.png");
-  background-repeat: no-repeat;
-  top: 50px;
-  left: 50px;
-  width: 50%;
-  height: 50%;
-}
+
 .btn{
   font-family: "Open Sans";
   font-size: 18px;
