@@ -1,9 +1,8 @@
-import React, {useEffect} from 'react'
+import React, {useState,useEffect} from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { recipeParams, clearDetail } from '../../Redux/Actions/index.js'
 import styles from './idCard.module.css'
-
 
 
 
@@ -24,7 +23,26 @@ export default function IDCard(props){
   }, [dispatch,id])
   console.log(id)
   console.log(detail)
-  
+
+    const [disabled, setDisabled] = useState(false)
+   const lessText= detail.steps && detail.steps.slice(0,601) 
+   const lessText2= detail.steps && detail.steps.slice(601)
+   console.log(lessText)
+   console.log(lessText2)
+   const allInfo = detail.steps
+
+   
+
+const openBox=(e)=>{
+
+  e.preventDefault()
+  setDisabled(true)
+}
+
+const closeBox=(e)=>{
+  e.preventDefault()
+  setDisabled(false)
+}
 
 
   return(      
@@ -65,7 +83,20 @@ export default function IDCard(props){
             <div className={styles.stepsContainer}>
 
             <h3 className={styles.subTitle}>Step by Step</h3>
-            <p className={styles.info}>{detail.steps}</p>
+            {detail.steps  && detail.steps.length <= 601 ? <p className={styles.info}>{detail.steps}</p>:
+              <div >
+              <p className={styles.info}>{lessText}</p>
+              <button className={styles.btnOpen} onClick={(e)=>openBox(e)} >More</button>
+              {disabled === true && 
+               <div className={styles.boxExtra}>
+                <button className={styles.btnClose} onClick={(e)=>closeBox(e)} >x</button>
+                <p>{lessText2}</p>
+              </div>}
+        
+            </div>
+            
+              }
+            {/* <p className={styles.info}>{detail.steps}</p> */}
 
             </div>
             <div className={styles.idContainer}>
@@ -86,7 +117,9 @@ export default function IDCard(props){
               <div className={styles.summaryContainer}>
 
             <h3 className={styles.subTitle}>Summary</h3>
-            <p >{detail.summary}</p>
+
+            {disabled ?<p className={styles.shortSummary}>{detail.summary}</p> : <p >{detail.summary}</p>}
+            
 
             </div>         
           </div>
