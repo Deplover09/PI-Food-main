@@ -29,7 +29,7 @@ export default function IDCard(props){
    const lessText2= detail.steps && detail.steps.slice(601)
    console.log(lessText)
    console.log(lessText2)
-   const allInfo = detail.steps
+   
 
    
 
