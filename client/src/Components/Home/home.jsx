@@ -1,113 +1,120 @@
-import React from "react"
-import { useState, useEffect } from "react"
-import {useDispatch, useSelector} from "react-redux"
-import {Link} from "react-router-dom";
-import {getRepices, getDiets, filterByCreated, orderByName, filterRecipesByDiets, orderByHealthScore, cleanRecipes}  from '../../Redux/Actions/index.js';
-import Card from './Card/Card.jsx';
-import NavBar from '../NavBar/NavBar.jsx';
-import styles from'./home.module.css'
+import React from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import {
+  getRepices,
+  getDiets,
+  filterByCreated,
+  orderByName,
+  filterRecipesByDiets,
+  orderByHealthScore,
+  cleanRecipes,
+} from "../../Redux/Actions/index.js";
+import Card from "./Card/Card.jsx";
+import NavBar from "../NavBar/NavBar.jsx";
+import styles from "./home.module.css";
 import Repices0 from "./Repices0/Repices0.jsx";
-// apiNormal = d4d2608c3c244c668a2e3b3dc8efe150
-// apiRespaldo= ddff05c5b816409180d830983322c675
-// apiRespaldo2= 682322ca05b545f296652c8d3dbc6bbf
-// apiRespald03= d96ef07a290b4652b6685a98d9e6c920
-// apiRespald04= 7d9f2bea378d4b8c852740d3ef5e285c
-export default function Home(){
+export default function Home() {
+  const dispatch = useDispatch();
+  const allRecipes = useSelector((state) => state.recipes);
 
-const dispatch = useDispatch()
-const allRecipes = useSelector(state => state.recipes);
+  const allDiets = useSelector((state) => state.diets);
 
-const allDiets = useSelector(state => state.diets);
-    
-const [orden, setOrden]= useState("")
-const [currentPage, setCurrentPage] = useState(1);
-const [recipesPage, setRecipesPage] = useState(9);
-const indexOfLastRecipe = currentPage * recipesPage;
-const indexOfFirstRecipe = indexOfLastRecipe - recipesPage;
-const currentRecipes = allRecipes.slice(indexOfFirstRecipe,indexOfLastRecipe)
-        
-const paginado = (pageNumber) =>{
-  setCurrentPage(pageNumber)
-}
+  const [orden, setOrden] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recipesPage, setRecipesPage] = useState(9);
+  const indexOfLastRecipe = currentPage * recipesPage;
+  const indexOfFirstRecipe = indexOfLastRecipe - recipesPage;
+  const currentRecipes = allRecipes.slice(
+    indexOfFirstRecipe,
+    indexOfLastRecipe
+  );
 
-useEffect( ()=>{
-  dispatch(getRepices());
-},[dispatch])
+  const paginado = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
- useEffect( ()=>{
-   dispatch(getDiets())
- },[dispatch])
+  useEffect(() => {
+    dispatch(getRepices());
+  }, [dispatch]);
 
- function handleClick(e){
-  e.preventDefault();
-  dispatch(getRepices())
-  setCurrentPage(1)
-}
-function handleFilterDiets(e){
-  
-  dispatch(filterRecipesByDiets(e.target.value))
+  useEffect(() => {
+    dispatch(getDiets());
+  }, [dispatch]);
 
-}
-function handleFilterCreated(e){
-  e.preventDefault();
-  dispatch(filterByCreated(e.target.value))
-   //setCurrentPage(1)
-}
-function handleSort(e){
-  e.preventDefault()
-  dispatch(orderByName(e.target.value));
-  setCurrentPage(1)
-  setOrden(`Ordenado ${e.target.value}`)
- }
-function handleSortByHealthScore(e){
-  e.preventDefault()
-  dispatch(orderByHealthScore(e.target.value));
-  setOrden(`Ordenado ${e.target.value}`)
-  setCurrentPage(1)
-}
+  function handleClick(e) {
+    e.preventDefault();
+    dispatch(getRepices());
+    setCurrentPage(1);
+  }
+  function handleFilterDiets(e) {
+    dispatch(filterRecipesByDiets(e.target.value));
+  }
+  function handleFilterCreated(e) {
+    e.preventDefault();
+    dispatch(filterByCreated(e.target.value));
+    //setCurrentPage(1)
+  }
+  function handleSort(e) {
+    e.preventDefault();
+    dispatch(orderByName(e.target.value));
+    setCurrentPage(1);
+    setOrden(`Ordenado ${e.target.value}`);
+  }
+  function handleSortByHealthScore(e) {
+    e.preventDefault();
+    dispatch(orderByHealthScore(e.target.value));
+    setOrden(`Ordenado ${e.target.value}`);
+    setCurrentPage(1);
+  }
 
-function reloadClick(e) {
-  e.preventDefault();
-  dispatch(cleanRecipes());
-  dispatch(getRepices());
-  
-  setCurrentPage(1);
-}
+  function reloadClick(e) {
+    e.preventDefault();
+    dispatch(cleanRecipes());
+    dispatch(getRepices());
+
+    setCurrentPage(1);
+  }
 
   return (
     <div>
-      {allRecipes.length === 0 ? <Repices0/> : 
-      <div className={styles.background}>
-      <NavBar 
-      allDiets={allDiets} 
-     handleSort={handleSort} 
-      handleFilterDiets={handleFilterDiets}
-     handleFilterCreated={handleFilterCreated}
-     handleSortByHealthScore={handleSortByHealthScore}
-     setCurrentPage={setCurrentPage}
-     recipesPage={recipesPage}
-     allRecipes={allRecipes.length}
-      paginado={paginado}
-      reloadClick={reloadClick}
-   />
+      {allRecipes.length === 0 ? (
+        <Repices0 />
+      ) : (
+        <div className={styles.background}>
+          <NavBar
+            allDiets={allDiets}
+            handleSort={handleSort}
+            handleFilterDiets={handleFilterDiets}
+            handleFilterCreated={handleFilterCreated}
+            handleSortByHealthScore={handleSortByHealthScore}
+            setCurrentPage={setCurrentPage}
+            recipesPage={recipesPage}
+            allRecipes={allRecipes.length}
+            paginado={paginado}
+            reloadClick={reloadClick}
+          />
 
-<div className={styles.recipeContainer}> 
-{console.log(allRecipes)}
+          <div className={styles.recipeContainer}>
+            {console.log(allRecipes)}
 
-{
-currentRecipes?.map(r => {  
-                    
-return(
-<Link to={`/Home/${r.id}`} className={styles.link} >
-<Card key={r.id} name={r.name} image={r.image} diets={r.diets.map(d =>d)} id ={r.id}/>
-</Link>
-)          
-})}
-</div>
-</div>
-}
-      
-    
+            {currentRecipes?.map((r) => {
+              return (
+                <Link to={`/Home/${r.id}`} className={styles.link}>
+                  <Card
+                    key={r.id}
+                    name={r.name}
+                    image={r.image}
+                    diets={r.diets.map((d) => d)}
+                    id={r.id}
+                  />
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
-)
+  );
 }
