@@ -27,9 +27,9 @@ Was realized for Henry bootcamp♥.
   <img height="500rem" width="1200" src="./client/src/images/Home.jpg"/>
 </p>
 
-## Pokemon Detail
+## Card Detail
 <p align="center">
-  <img height="500rem" width="1200" src="./client/src/images/qwe.jpg"/>
+  <img height="500rem" width="1200" src="./client/src/images/CardDetail.jpg"/>
 </p>
 
 ## React Form
