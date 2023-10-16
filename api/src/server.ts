@@ -2,7 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import morgan from 'morgan';
-import routes from "./routes/index";
+import routes from "./routes/indexRoutes";
 
 const server = express();
 
