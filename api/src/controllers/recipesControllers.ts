@@ -1,8 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
 
-const getApiInfo = async (): Promise<any[]> => {
+const { APIKEY } = process.env;
+
+const getRecipesApi = async (): Promise<any[]> => {
   try {
-    const APIKEY = 'your_api_key';
+    const APIKEY = "your_api_key";
 
     const url = await axios.get(
       `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&addRecipeInformation=true&number=100`
@@ -26,8 +28,10 @@ const getApiInfo = async (): Promise<any[]> => {
           diets: result.diets?.map((element: string) => element),
           summary: result.summary,
           steps: result.analyzedInstructions[0]?.steps
-            ? result.analyzedInstructions[0]?.steps.map((item: any) => item.step).join('\n')
-            : '',
+            ? result.analyzedInstructions[0]?.steps
+                .map((item: any) => item.step)
+                .join("\n")
+            : "",
         }))
       );
 
@@ -41,3 +45,16 @@ const getApiInfo = async (): Promise<any[]> => {
   return [];
 };
 
+const getDietsApi = async (): Promise<any[]> => {
+  try {
+    const dietsApi = await axios.get(
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&number=100&addRecipeInformation=true`
+    );
+
+    const diets = dietsApi.data.results.map((el: any) => el.diets);
+    return diets;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
