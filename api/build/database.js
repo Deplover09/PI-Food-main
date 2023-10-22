@@ -12,9 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const server_1 = __importDefault(require("./server"));
-const database_1 = __importDefault(require("./database"));
-server_1.default.listen(server_1.default.get("port"), () => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, database_1.default)();
-    console.log("server on port", server_1.default.get("port"));
-}));
+const mongoose_1 = __importDefault(require("mongoose"));
+const runDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        mongoose_1.default
+            .connect("mongodb://127.0.0.1:27017/recipes")
+            .then((result) => console.log("server working"));
+        const collectionsToReset = ["recipeModel", "dietModel"];
+        for (const collectionName of collectionsToReset) {
+            yield mongoose_1.default.connection.db.dropCollection(collectionName);
+            console.log(`Collection "${collectionName}" deleted.`);
+        }
+    }
+    catch (error) {
+        console.error("Error restarting database foods", error);
+    }
+});
+exports.default = runDatabase;

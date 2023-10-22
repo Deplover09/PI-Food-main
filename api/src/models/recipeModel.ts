@@ -7,13 +7,18 @@ const recipeSchema = new Schema(
     healthScore: { type: Number, required: true },
     image: { type: String, required: true },
     steps: { type: String, required: true },
-    createdInDb: { type: Boolean, required: true },
+    diets: [{
+      type: Schema.Types.ObjectId,
+      ref: 'DietsCollection',
+      required: true 
+    }],
+    createdByUsers: { type: Boolean, required: true },
   },
   {
     timestamps: true,
   }
 );
 
-const recipeModel = model("Model", recipeSchema);
+const recipeModel = model("RecipesCollection", recipeSchema);
 
 export default recipeModel;

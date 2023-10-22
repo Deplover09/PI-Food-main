@@ -12,9 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const server_1 = __importDefault(require("./server"));
-const database_1 = __importDefault(require("./database"));
-server_1.default.listen(server_1.default.get("port"), () => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, database_1.default)();
-    console.log("server on port", server_1.default.get("port"));
-}));
+const express_1 = __importDefault(require("express"));
+const { getInfoByName, getAllInfo, getDBInfo } = require("./functions");
+// infoTotal, nameApi, infoDB,
+const router = express_1.default.Router();
+const getRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name } = req.query;
+    try {
+        if (name) {
+            const infoByName = yield getInfoByName(name);
+            return res.send(infoByName);
+        }
+        else {
+            const repiceTotal = yield getAllInfo();
+            return res.send(repiceTotal);
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+exports.default = getRecipes;

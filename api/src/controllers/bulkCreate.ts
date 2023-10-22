@@ -1,0 +1,96 @@
+import axios from "axios";
+import recipeModel from "../models/recipeModel";
+import dietModel from "../models/dietModel";
+import { saveRecipes } from "./recipesControllers";
+import { saveDiets, dbDiets, addRecipeToDietsCollection } from "./dietsControllers";
+require("dotenv").config();
+
+const APIKEY = process.env.APIKEY;
+
+const getRecipesApi = async (): Promise<any[]> => {
+  try {
+    const url = await axios.get(
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&addRecipeInformation=true&number=100`
+    );
+
+    const results = url.data.results;
+
+    if (results.length > 0) {
+      const response = await Promise.all(
+        results.map((result: any) => ({
+          name: result.title,
+          image: result.image,
+          healthScore: result.healthScore,
+          diets: result.diets?.map((element: string) => element),
+          summary: result.summary,
+          steps: result.analyzedInstructions[0]?.steps
+            ? result.analyzedInstructions[0]?.steps
+                .map((item: any) => item.step)
+                .join("\n")
+            : "",
+        }))
+      );
+      // return response.slice(0, 1)
+
+      return response;
+    }
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+
+  return [];
+};
+
+const getDietsApi = async (): Promise<any[]> => {
+  try {
+    const dietsApi = await axios.get(
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&number=100&addRecipeInformation=true`
+    );
+    const diets = dietsApi.data.results.map((el: any) => el.diets);
+    // console.log(diets)
+    return diets;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
+const bulkCreateDiets = async (arr: Array<string>) => {
+  const dietsArray = arr.flat();
+
+  const removeDuplicates = Array.from(new Set(dietsArray));
+
+  await Promise.all(
+    removeDuplicates.map(async (diet: string) => {
+      await saveDiets(diet);
+    })
+  );
+};
+
+const bulkCreate = async () => {
+  const allRecipes = await recipeModel.find();
+  const allDiets = await dietModel.find();
+  if (allRecipes[0] && allDiets[0]) {
+    console.log("recipes and diets collection are not empty");
+    return undefined;
+  }
+  const dietsFromApi = await getDietsApi();
+
+  await bulkCreateDiets(dietsFromApi);
+  const recipesFromApi = await getRecipesApi();
+  const dbDietsData = await dbDiets();
+  //  dbDietsData && console.log("Data from the diets collection:", dbDietsData.length );
+  dbDietsData[0] &&
+    recipesFromApi &&
+    await Promise.all(recipesFromApi.map(async (recipe) => {
+      const { name, image, healthScore, summary, steps, diets } = recipe;
+      const repiceSaved = await saveRecipes(name, image, healthScore, summary, steps, diets);
+      // console.log(recipe)
+      repiceSaved && await Promise.all(repiceSaved.diets.map(async(d)=>{
+       return await addRecipeToDietsCollection(d.toString(), repiceSaved._id.toString())
+      }))
+    }));
+};
+
+export default bulkCreate;

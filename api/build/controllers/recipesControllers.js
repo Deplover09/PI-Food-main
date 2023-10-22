@@ -12,9 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const server_1 = __importDefault(require("./server"));
-const database_1 = __importDefault(require("./database"));
-server_1.default.listen(server_1.default.get("port"), () => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, database_1.default)();
-    console.log("server on port", server_1.default.get("port"));
-}));
+const recipe_1 = __importDefault(require("../models/recipe"));
+const saveRecipes = (name, image, healthScore, summary, steps, diets, createdByUsers) => __awaiter(void 0, void 0, void 0, function* () {
+    const newRecipes = new recipe_1.default({ name, image, healthScore, summary, steps, diets, createdByUsers });
+    yield newRecipes.save();
+    // const newRecipe = new recipeModel({})
+});

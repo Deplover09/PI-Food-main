@@ -6,12 +6,16 @@ const dietSchema = new Schema(
       type: String,
       required: true,
     },
+    recipes: [{
+      type: Schema.Types.ObjectId,
+      ref: 'RecipesCollection',
+    }],
   },
   {
     timestamps: true,
   }
 );
 
-const dietModel = model("Model", dietSchema);
+const dietModel = model("DietsCollection", dietSchema);
 
 export default dietModel;
