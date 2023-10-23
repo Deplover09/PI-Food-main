@@ -21,6 +21,9 @@ const saveRecipes = async (
   const IDdietsArray = await idsDiets(diets);
 
   createdByUsers ? createdByUsers : (createdByUsers = false);
+  !steps && console.log("no steps")
+  !steps && console.log(name)
+  !steps && console.log(steps)
 
   const newRecipes = new recipeModel({
     name,
@@ -31,6 +34,7 @@ const saveRecipes = async (
     diets: IDdietsArray,
     createdByUsers,
   });
+  // console.log(newRecipes)
   return await new recipeModel(newRecipes).save();
 };
 

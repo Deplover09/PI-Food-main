@@ -1,8 +1,14 @@
+
+
 import axios from "axios";
 import recipeModel from "../models/recipeModel";
 import dietModel from "../models/dietModel";
 import { saveRecipes } from "./recipesControllers";
-import { saveDiets, dbDiets, addRecipeToDietsCollection } from "./dietsControllers";
+import {
+  saveDiets,
+  dbDiets,
+  addRecipeToDietsCollection,
+} from "./dietsControllers";
 require("dotenv").config();
 
 const APIKEY = process.env.APIKEY;
@@ -23,15 +29,17 @@ const getRecipesApi = async (): Promise<any[]> => {
           healthScore: result.healthScore,
           diets: result.diets?.map((element: string) => element),
           summary: result.summary,
-          steps: result.analyzedInstructions[0]?.steps
-            ? result.analyzedInstructions[0]?.steps
-                .map((item: any) => item.step)
-                .join("\n")
-            : "",
+           steps: (result.analyzedInstructions[0] ? result.analyzedInstructions[0].steps && result.analyzedInstructions[0].steps[0] && result.analyzedInstructions[0].steps.map((item: any) => item.step).join(" \n"):false )
+          // result.analyzedInstructions[0].steps[0] ?
+          //    result.analyzedInstructions[0].steps
+          //       ?.map((item: any) => item.step)
+          //       .join("\n")
+          //       : false
+            
         }))
       );
       // return response.slice(0, 1)
-
+// console.log(response)
       return response;
     }
   } catch (error) {
@@ -68,6 +76,24 @@ const bulkCreateDiets = async (arr: Array<string>) => {
   );
 };
 
+const recipesAreComplete = async() => {
+  const recipesFromApi = await getRecipesApi()
+  let numeroos = 0
+  const areAllCharacteristics = (obj : Object) => {
+    
+    for (let c of Object.entries(obj)) {
+      const [, value] = c; 
+      if (value === undefined || value === null || value === false) {
+        return false;
+      }
+    }
+     return true;
+  };
+
+
+  return recipesFromApi.filter((obj) => areAllCharacteristics(obj) === true);
+};
+
 const bulkCreate = async () => {
   const allRecipes = await recipeModel.find();
   const allDiets = await dietModel.find();
@@ -79,18 +105,40 @@ const bulkCreate = async () => {
 
   await bulkCreateDiets(dietsFromApi);
   const recipesFromApi = await getRecipesApi();
+  const recipesComplete = await recipesAreComplete()
+  // const ultimoElemento = recipesComplete[recipesComplete.length - 1];
+  // console.log(recipesComplete.length)
+  //  console.log(typeof  ultimoElemento.steps)
+  // console.log( typeof recipesComplete[recipesComplete.length - 1].steps) 
+  // console.log(recipesComplete)
   const dbDietsData = await dbDiets();
   //  dbDietsData && console.log("Data from the diets collection:", dbDietsData.length );
   dbDietsData[0] &&
-    recipesFromApi &&
-    await Promise.all(recipesFromApi.map(async (recipe) => {
-      const { name, image, healthScore, summary, steps, diets } = recipe;
-      const repiceSaved = await saveRecipes(name, image, healthScore, summary, steps, diets);
-      // console.log(recipe)
-      repiceSaved && await Promise.all(repiceSaved.diets.map(async(d)=>{
-       return await addRecipeToDietsCollection(d.toString(), repiceSaved._id.toString())
-      }))
-    }));
+    recipesComplete &&
+    (await Promise.all(
+      recipesComplete.map(async (recipe) => {
+        const { name, image, healthScore, summary, steps, diets } = recipe;
+        const repiceSaved = await saveRecipes(
+          name,
+          image,
+          healthScore,
+          summary,
+          steps,
+          diets
+        );
+        // console.log(recipe)
+        repiceSaved &&
+          (await Promise.all(
+            repiceSaved.diets.map(async (d) => {
+              return await addRecipeToDietsCollection(
+                d.toString(),
+                repiceSaved._id.toString()
+              );
+            })
+          ));
+      })
+    ));
+   
 };
 
 export default bulkCreate;
