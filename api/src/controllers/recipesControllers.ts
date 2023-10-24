@@ -7,7 +7,7 @@ const saveRecipes = async (
   summary: string,
   steps: string,
   diets: Array<string>,
-  createdByUsers?: boolean
+  createdByUsers?: boolean,
 ) => {
   const idsDiets = async (arr: Array<string>) => {
     const dietsArray = await Promise.all(
@@ -31,8 +31,9 @@ const saveRecipes = async (
     diets: IDdietsArray,
     createdByUsers,
   });
-  // console.log(newRecipes)
-  return await new recipeModel(newRecipes).save();
+  await new recipeModel(newRecipes).save()
+  const isRecipeCreated = await dBRecipesByName(name)
+  return isRecipeCreated;
 };
 
 const dBRecipes = async () => await recipeModel.find();
