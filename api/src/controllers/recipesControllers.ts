@@ -21,9 +21,6 @@ const saveRecipes = async (
   const IDdietsArray = await idsDiets(diets);
 
   createdByUsers ? createdByUsers : (createdByUsers = false);
-  !steps && console.log("no steps")
-  !steps && console.log(name)
-  !steps && console.log(steps)
 
   const newRecipes = new recipeModel({
     name,
@@ -38,4 +35,9 @@ const saveRecipes = async (
   return await new recipeModel(newRecipes).save();
 };
 
-export { saveRecipes };
+const dBRecipes = async () => await recipeModel.find();
+const dBRecipesByName = async (recipeName: string) =>
+  await recipeModel.find({ name: recipeName });
+const dBRecipesByID = async (id: string) => await recipeModel.findById(id);
+
+export { saveRecipes, dBRecipes, dBRecipesByName, dBRecipesByID };

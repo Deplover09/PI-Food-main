@@ -5,7 +5,7 @@ import {
   dbDietsByID,
 } from "../controllers/dietsControllers";
 
-const dietsRoute = async (req: express.Request, res: express.Response) => {
+const getDietsRoute = async (req: express.Request, res: express.Response) => {
   const { name }: { name?: string } = req.query;
   console.log(name);
 
@@ -13,13 +13,14 @@ const dietsRoute = async (req: express.Request, res: express.Response) => {
     const dietsFromDb = await dbDiets();
     if (!name) return res.send(dietsFromDb);
     const dietsFromDbByName = await dbDietsByName(name);
-    return res.send(dietsFromDbByName);
+    if(dietsFromDbByName) return res.send(dietsFromDbByName);
+    return res.status(404).send("diet not found ")
   } catch (err) {
     console.log(err);
     res.send(err);
   }
 };
-const dietsIDRoute = async (req: express.Request, res: express.Response) => {
+const getDietsIDRoute = async (req: express.Request, res: express.Response) => {
   const { id } = req.params;
   if (!id) return res.status(404).send("missing id");
   const diet = await dbDietsByID(id);
@@ -27,4 +28,4 @@ const dietsIDRoute = async (req: express.Request, res: express.Response) => {
   else return res.status(404).send("diet not found");
 };
 
-export { dietsRoute, dietsIDRoute };
+export { getDietsRoute, getDietsIDRoute };

@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import {dietsRoute, dietsIDRoute} from "./dietsRoutes"
+import {getDietsRoute, getDietsIDRoute} from "./dietsRoutes"
+import {getRecipes, getRecipesByID} from "./recipesRoutes"
 
 // import getRecipes from './recipesRoutes'; 
 // const recipesParamsRoute = require('./getRecipeParams.js')
@@ -9,8 +10,11 @@ const router = Router();
 
 // router.use('/recipes', getRecipes);
 // router.use('/recipesParams', recipesParamsRoute); //715594
-router.use('/diets/:id', dietsIDRoute)
-router.use('/diets', dietsRoute);
+
+router.get('/diets', getDietsRoute);
+router.get('/diets/:id', getDietsIDRoute)
+router.get("/recipes", getRecipes)
+router.get("/recipes/:id", getRecipesByID)
 
 
 export default router;
