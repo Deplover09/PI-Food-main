@@ -1,7 +1,11 @@
-import {createStore, applyMiddleware} from "redux";
-import {composeWithDevTools} from '@redux-devtools/extension';
-import thunk from "redux-thunk";
-import rootReducer from "./reducer";
+import { configureStore } from "@reduxjs/toolkit";
+import { recipeReducer } from "./recipesSlice.ts";
 
+export const store = configureStore({
+  reducer: {
+    recipe: recipeReducer
+  }
+});
 
-export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
+export type RootState = ReturnType<typeof store.getState>;
+export type Dispatch = typeof store.dispatch;

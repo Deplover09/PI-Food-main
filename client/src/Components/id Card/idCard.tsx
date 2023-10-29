@@ -1,18 +1,12 @@
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { recipeParams, clearDetail } from "../../Redux/Actions/index";
+import { recipeParams, clearDetail } from "../../redux/actions.ts";
 import styles from "./idCard.module.css";
 
-interface IDCardProps {
-  match: {
-    params: {
-      id: string;
-    };
-  };
-}
 
-export default function IDCard(props: IDCardProps) {
+
+export default function IDCard() {
   const { id } = useParams<{ id: string }>();
   const detail = useSelector((state) => state.detail);
   const dispatch = useDispatch();

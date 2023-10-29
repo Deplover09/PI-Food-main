@@ -1,8 +1,8 @@
-import React, { ChangeEvent, MouseEvent } from 'react';
-import { Link } from 'react-router-dom';
-import SearchBar from '../SearchBar/Searchbar';
-import styles from './NavBar.module.css';
-import Paginado from './Paginado/paginado';
+import React, { ChangeEvent, MouseEvent } from "react";
+import { Link } from "react-router-dom";
+import SearchBar from "../SearchBar/Searchbar";
+import styles from "./NavBar.module.css";
+import Paginado from "./Paginado/paginado";
 
 interface NavBarProps {
   allDiets: { name: string }[] | undefined;
@@ -27,7 +27,7 @@ export default function NavBar({
   recipesPage,
   allRecipes,
   paginado,
-  reloadClick,
+  reloadClick
 }: NavBarProps) {
   return (
     <div>
@@ -72,7 +72,11 @@ export default function NavBar({
             <SearchBar></SearchBar>
           </div>
           <div className={styles.paginadoContainer}>
-            <Paginado recipesPage={recipesPage} allRecipes={allRecipes} paginado={paginado} />
+            <Paginado
+              recipesPage={recipesPage}
+              allRecipes={allRecipes}
+              paginado={paginado}
+            />
           </div>
           <button className={styles.button} onClick={(e) => reloadClick(e)}>
             Reload List
@@ -81,22 +85,34 @@ export default function NavBar({
       ) : (
         <div>
           <div className={styles.secondContainer}>
-            <select className={styles.selectBar} onChange={(e) => handleSort(e)}>
+            <select
+              className={styles.selectBar}
+              onChange={(e) => handleSort(e)}
+            >
               <option value="">Select Order</option>
               <option value="asc">A to Z</option>
               <option value="desc">Z to A</option>
             </select>
-            <select className={styles.selectBar} onChange={(e) => handleSortByHealthScore(e)}>
+            <select
+              className={styles.selectBar}
+              onChange={(e) => handleSortByHealthScore(e)}
+            >
               <option value="Score">Select Score</option>
               <option value="asc">Max Spoonacular Score</option>
               <option value="des">Min Spoonacular Score</option>
             </select>
-            <select className={styles.selectBar} onChange={(e) => handleFilterCreated(e)}>
+            <select
+              className={styles.selectBar}
+              onChange={(e) => handleFilterCreated(e)}
+            >
               <option value="Recipes">All Recipes</option>
               <option value="Api">Recipes Api</option>
               <option value="Created">Created</option>
             </select>
-            <select className={styles.selectBar} onChange={(e) => handleFilterDiets(e)}>
+            <select
+              className={styles.selectBar}
+              onChange={(e) => handleFilterDiets(e)}
+            >
               <option value="">Select Diets</option>
               {allDiets?.map((diet) => {
                 return (
@@ -109,7 +125,11 @@ export default function NavBar({
             <SearchBar setCurrentPage={setCurrentPage}></SearchBar>
           </div>
           <div className={styles.paginadoContainer}>
-            <Paginado recipesPage={recipesPage} allRecipes={allRecipes} paginado={paginado} />
+            <Paginado
+              recipesPage={recipesPage}
+              allRecipes={allRecipes}
+              paginado={paginado}
+            />
           </div>
           <button className={styles.button} onClick={(e) => reloadClick(e)}>
             Reload List

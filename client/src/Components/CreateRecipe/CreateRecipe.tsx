@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./CreateRecipe.module.css";
 import noImg from "../../images/noImage.png";
 
-export default function CreatePokemon() {
+export default function CreateRecipe() {
   const dispatch = useDispatch();
   const history = useHistory();
   const allDiets = useSelector((state) => state.diets);
