@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useCustomDispatch, useCustomSelector } from "../../redux/hooks/hooks";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
-  fetchRecipes
+  fetchRecipes,
+  fetchDiets
   // getDiets,
   // filterByCreated,
   // orderByName,
@@ -11,40 +12,43 @@ import {
   // cleanRecipes,
 } from "../../redux/recipesSlice";
 // import {State} from "../../redux/reducer.ts"
-// import Card from "./Card/Card";
+import Card from "./Card/Card";
 // import NavBar from '../NavBar/NavBar';
-// import styles from "./home.module.css";
+import styles from "./home.module.css";
 // import Repices0 from "./Repices0/Repices0";
 
 const Home: React.FC = () => {
   const dispatch = useCustomDispatch();
-  const allRecipes = useCustomSelector((state) => state);
+  const allRecipes = useCustomSelector((state) => state.recipe.recipes);
   // const allDiets = useSelector((state) => state.diets);
   console.log(allRecipes);
 
   // const [orden, setOrden] = useState<string>("");
-  // const [currentPage, setCurrentPage] = useState<number>(1);
-  // const [recipesPage, setRecipesPage] = useState<number>(9);
-  // const indexOfLastRecipe = currentPage * recipesPage;
-  // const indexOfFirstRecipe = indexOfLastRecipe - recipesPage;
-  // const currentRecipes = allRecipes.slice(
-  //   indexOfFirstRecipe,
-  //   indexOfLastRecipe
-  // );
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [recipesPage, setRecipesPage] = useState<number>(9);
+  const indexOfLastRecipe = currentPage * recipesPage;
+  const indexOfFirstRecipe = indexOfLastRecipe - recipesPage;
+  const currentRecipes = allRecipes.slice(
+    indexOfFirstRecipe,
+    indexOfLastRecipe
+  );
 
-  // const paginado = (pageNumber: number) => {
-  //   setCurrentPage(pageNumber);
-  // };
+  const paginado = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
 
   useEffect(() => {
-    dispatch(fetchRecipes);
+    console.log("se manda");
+    dispatch(fetchRecipes());
+    dispatch(fetchDiets());
+    console.log("se mandado");
   }, [dispatch]);
 
-  // function handleClick(e: React.MouseEvent) {
+  // const handleClick = (e: React.MouseEvent) => {
   //   e.preventDefault();
-  //   dispatch(getRepices());
+  //   dispatch(fetchRecipes());
   //   setCurrentPage(1);
-  // }
+  // };
 
   // function handleFilterDiets(e: React.ChangeEvent<HTMLSelectElement>) {
   //   dispatch(filterRecipesByDiets(e.target.value));
@@ -70,20 +74,20 @@ const Home: React.FC = () => {
   //   setCurrentPage(1);
   // }
 
-  // function reloadClick(e: React.MouseEvent) {
+  // const reloadClick = (e: React.MouseEvent) => {
   //   e.preventDefault();
   //   dispatch(cleanRecipes());
   //   dispatch(getRepices());
   //   setCurrentPage(1);
-  // }
+  // };
 
   return (
     <div>
-      {/* {allRecipes.length === 0 ? (
-        <Repices0 />
+      {allRecipes.length === 0 ? (
+        "no hay nada"
       ) : (
         <div className={styles.background}>
-           <NavBar
+          <NavBar
             // allDiets={allDiets}
             // handleSort={handleSort}
             // handleFilterDiets={handleFilterDiets}
@@ -94,18 +98,22 @@ const Home: React.FC = () => {
             allRecipes={allRecipes.length}
             paginado={paginado}
             reloadClick={reloadClick}
-          /> 
-
+          />
           <div className={styles.recipeContainer}>
             console.log(allRecipes)
-             {currentRecipes?.map((r) => (
+            {currentRecipes?.map((r) => (
               <Link to={`/Home/${r.id}`} className={styles.link} key={r.id}>
-                <Card name={r.name} image={r.image} diets={r.diets.map((d) => d)} id={r.id} />
+                <Card
+                  name={r.name}
+                  image={r.image}
+                  diets={r.diets.map((d) => d)}
+                  id={r.id}
+                />
               </Link>
-            )}  
+            ))}
           </div>
         </div>
-      )} */}
+      )}
     </div>
   );
 };

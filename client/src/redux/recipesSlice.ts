@@ -8,6 +8,7 @@ import axios from "axios";
 interface Recipe {
   id: string;
   name: string;
+  image: string;
   diets: string[];
   healthScore: number;
   createdInDb: boolean;
@@ -28,8 +29,15 @@ const initialState: State = {
   backUpRecipes: []
 };
 
-const fetchRecipes = createAsyncThunk("recipe/fetchAll", async () => {
+const fetchRecipes = createAsyncThunk("recipe/fetchAllRecipes", async () => {
+  console.log("se ue");
   const response = await axios.get("http://localhost:3001/recipes");
+  console.log("llego");
+  return response.data;
+});
+
+const fetchDiets = createAsyncThunk("recipe/fetchAllDiets", async () => {
+  const response = await axios.get("http://localhost:3001/diets");
   return response.data;
 });
 
@@ -38,13 +46,17 @@ const recipeSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchRecipes.fulfilled, (state, action) => {
-      state.recipes = action.payload;
-      state.backUpRecipes = action.payload;
-    });
+    builder
+      .addCase(fetchRecipes.fulfilled, (state, action) => {
+        state.recipes = action.payload;
+        state.backUpRecipes = action.payload;
+      })
+      .addCase(fetchDiets.fulfilled, (state, action) => {
+        state.diets = action.payload;
+      });
   }
 });
 
 const recipeReducer = recipeSlice.reducer;
 
-export { recipeReducer, fetchRecipes };
+export { recipeReducer, fetchRecipes, fetchDiets };
