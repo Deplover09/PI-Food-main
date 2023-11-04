@@ -13,9 +13,14 @@ interface Recipe {
   healthScore: number;
   createdInDb: boolean;
 }
+export interface diets {
+  id: string;
+  name: string;
+  recipes: string[];
+}
 interface State {
   recipes: Recipe[] | [];
-  diets: string[] | [];
+  diets: diets[] | [];
   detail: Recipe | object;
   error: object[];
   backUpRecipes: Recipe[] | [];

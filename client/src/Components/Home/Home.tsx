@@ -13,15 +13,18 @@ import {
 } from "../../redux/recipesSlice";
 // import {State} from "../../redux/reducer.ts"
 import Card from "./Card/Card";
-// import NavBar from '../NavBar/NavBar';
+import NavBar from "../NavBar/NavBar";
 import styles from "./home.module.css";
 // import Repices0 from "./Repices0/Repices0";
 
 const Home: React.FC = () => {
   const dispatch = useCustomDispatch();
-  const allRecipes = useCustomSelector((state) => state.recipe.recipes);
+  const { recipes: allRecipes, diets: allDiets } = useCustomSelector(
+    (state) => state.recipe
+  );
   // const allDiets = useSelector((state) => state.diets);
   console.log(allRecipes);
+  console.log(allDiets);
 
   // const [orden, setOrden] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -33,7 +36,7 @@ const Home: React.FC = () => {
     indexOfLastRecipe
   );
 
-  const paginado = (pageNumber: number) => {
+  const paginado = (pageNumber: number): void => {
     setCurrentPage(pageNumber);
   };
 
@@ -88,16 +91,16 @@ const Home: React.FC = () => {
       ) : (
         <div className={styles.background}>
           <NavBar
-            // allDiets={allDiets}
+            allDiets={allDiets}
             // handleSort={handleSort}
             // handleFilterDiets={handleFilterDiets}
             // handleFilterCreated={handleFilterCreated}
             // handleSortByHealthScore={handleSortByHealthScore}
-            setCurrentPage={setCurrentPage}
+            // setCurrentPage={setCurrentPage}
             recipesPage={recipesPage}
             allRecipes={allRecipes.length}
             paginado={paginado}
-            reloadClick={reloadClick}
+            // reloadClick={reloadClick}
           />
           <div className={styles.recipeContainer}>
             console.log(allRecipes)

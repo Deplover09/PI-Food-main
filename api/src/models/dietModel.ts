@@ -1,21 +1,29 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, type Document } from "mongoose";
 
 const dietSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: true
     },
-    recipes: [{
-      type: Schema.Types.ObjectId,
-      ref: 'RecipesCollection',
-    }],
+    recipes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "RecipesCollection"
+      }
+    ]
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 );
 
-const dietModel = model("DietsCollection", dietSchema);
+export interface Diet extends Document {
+  name: string;
+  recipes: string[] & Schema.Types.ObjectId[];
+}
 
-export default dietModel;
+// const DietModel: Model<Diet & Document> = model("Diet", dietSchema);
+// // const DietModel = model("DietsCollection", dietSchema);
+
+export default model<Diet>("DietsCollection", dietSchema);

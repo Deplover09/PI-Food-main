@@ -5,8 +5,11 @@ module.exports = {
 	},
 	"extends": [
 		"eslint:recommended",
-		"plugin:@typescript-eslint/recommended"
+		"standard-with-typescript",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:prettier/recommended"
 	],
+	"ignorePatterns": ['dist', '.eslintrc.cjs'],
 	"overrides": [
 		{
 			"env": {
@@ -26,24 +29,11 @@ module.exports = {
 		"sourceType": "module"
 	},
 	"plugins": [
-		"@typescript-eslint"
+		"@typescript-eslint",
+		"prettier"
 	],
 	"rules": {
-		"indent": [
-			"error",
-			"tab"
-		],
-		"linebreak-style": [
-			"error",
-			"unix"
-		],
-		"quotes": [
-			"error",
-			"double"
-		],
-		"semi": [
-			"error",
-			"never"
-		]
+		"prettier/prettier": "error",
+    "@typescript-eslint/no-floating-promises": "off"
 	}
 }
