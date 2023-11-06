@@ -30,6 +30,4 @@ export interface Recipe extends Document {
   diets: string[] & Schema.Types.ObjectId[];
   createdByUsers: boolean;
 }
-// const RecipeModel = model("RecipesCollection", recipeSchema);
-
 export default model<Recipe>("RecipesCollection", recipeSchema);

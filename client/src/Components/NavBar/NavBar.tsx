@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 // import SearchBar from "../SearchBar/Searchbar";
 import styles from "./NavBar.module.css";
 import Paginado from "./Paginado/paginado";
-import { type diets } from "../../redux/recipesSlice";
+import { type diets } from "../../redux/recipeSlice/recipesSlice";
 
 interface NavBarProps {
   allDiets: diets[] | undefined;

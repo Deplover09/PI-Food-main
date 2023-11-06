@@ -10,7 +10,7 @@ import {
   // filterRecipesByDiets,
   // orderByHealthScore,
   // cleanRecipes,
-} from "../../redux/recipesSlice";
+} from "../../redux/recipeSlice/recipesSlice";
 // import {State} from "../../redux/reducer.ts"
 import Card from "./Card/Card";
 import NavBar from "../NavBar/NavBar";

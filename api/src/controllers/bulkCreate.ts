@@ -48,7 +48,7 @@ interface allRecipesPropertiesAreThere {
 const getRecipesApi = async (): Promise<infoRecipe[] | []> => {
   try {
     const url = await axios.get(
-      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&addRecipeInformation=true&number=100`
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&addRecipeInformation=true&number=200`
     );
 
     const results = url.data.results;
