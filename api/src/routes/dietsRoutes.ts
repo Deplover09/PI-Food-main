@@ -5,6 +5,24 @@ import {
   dbDietsByID
 } from "../controllers/dietsControllers";
 
+// const getDietsRoute = async (
+//   req: express.Request
+// ): Promise<dietObject | string | dietObject[] | undefined> => {
+//   const { name }: { name?: string } = req.query;
+//   console.log("getDietsRoute is here");
+//   try {
+//     if (name !== undefined && name !== null) {
+//       const dietsFromDbByName = await dbDietsByName(name);
+//       return dietsFromDbByName ?? "diet with that name not found";
+//     }
+
+//     const dietsFromDb = await dbDiets();
+//     console.log(dietsFromDb);
+//     return dietsFromDb ?? "there are not dies in db";
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 const getDietsRoute = async (
   req: express.Request,
   res: express.Response

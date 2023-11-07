@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 // import SearchBar from "../SearchBar/Searchbar";
 import styles from "./NavBar.module.css";
 import Paginado from "./Paginado/paginado";
-import { type diets } from "../../redux/recipeSlice/recipesSlice";
+import FilterByCreated from "./Sort & Filter/filterByCreated";
+import FilterByDiet from "./Sort & Filter/filterByDiet";
+import SortByName from "./Sort & Filter/sortByName";
+import SortByHealthScore from "./Sort & Filter/sortByHealthScore";
 
 interface NavBarProps {
-  allDiets: diets[] | undefined;
   // handleSort: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   // handleFilterDiets: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   // handleFilterCreated: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -19,7 +21,6 @@ interface NavBarProps {
 }
 
 const NavBar: React.FC<NavBarProps> = ({
-  allDiets,
   // handleSort,
   // handleFilterDiets,
   // handleFilterCreated,
@@ -44,31 +45,10 @@ const NavBar: React.FC<NavBarProps> = ({
       {
         <div>
           <div className={styles.secondContainer}>
-            <select className={styles.selectBar}>
-              <option value="">Select Order</option>
-              <option value="asc">A to Z</option>
-              <option value="desc">Z to A</option>
-            </select>
-            <select className={styles.selectBar}>
-              <option value="Score">Select Score</option>
-              <option value="asc">Max Spoonacular Score</option>
-              <option value="des">Min Spoonacular Score</option>
-            </select>
-            <select className={styles.selectBar}>
-              <option value="Recipes">All Recipes</option>
-              <option value="Api">Recipes Api</option>
-              <option value="Created">Created</option>
-            </select>
-            <select className={styles.selectBar}>
-              <option value="">Select Diets</option>
-              {allDiets?.map((diet) => {
-                return (
-                  <option value={diet.name} key={diet.id}>
-                    {diet.name}
-                  </option>
-                );
-              })}
-            </select>
+            <SortByName />
+            <SortByHealthScore />
+            <FilterByCreated />
+            <FilterByDiet />
             {/* <SearchBar></SearchBar> */}
           </div>
           <div className={styles.paginadoContainer}>

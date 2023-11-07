@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useCustomDispatch, useCustomSelector } from "../../redux/hooks/hooks";
 import { Link } from "react-router-dom";
-import {
-  fetchRecipes,
-  fetchDiets
-  // getDiets,
-  // filterByCreated,
-  // orderByName,
-  // filterRecipesByDiets,
-  // orderByHealthScore,
-  // cleanRecipes,
-} from "../../redux/recipeSlice/recipesSlice";
-// import {State} from "../../redux/reducer.ts"
+import { fetchRecipes, fetchDiets } from "../../redux/recipeSlice/asyncActions";
 import Card from "./Card/Card";
 import NavBar from "../NavBar/NavBar";
 import styles from "./home.module.css";
@@ -19,12 +9,7 @@ import styles from "./home.module.css";
 
 const Home: React.FC = () => {
   const dispatch = useCustomDispatch();
-  const { recipes: allRecipes, diets: allDiets } = useCustomSelector(
-    (state) => state.recipe
-  );
-  // const allDiets = useSelector((state) => state.diets);
-  console.log(allRecipes);
-  console.log(allDiets);
+  const { recipes: allRecipes } = useCustomSelector((state) => state.recipe);
 
   // const [orden, setOrden] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -53,30 +38,6 @@ const Home: React.FC = () => {
   //   setCurrentPage(1);
   // };
 
-  // function handleFilterDiets(e: React.ChangeEvent<HTMLSelectElement>) {
-  //   dispatch(filterRecipesByDiets(e.target.value));
-  // }
-
-  // function handleFilterCreated(e: React.ChangeEvent<HTMLSelectElement>) {
-  //   e.preventDefault();
-  //   dispatch(filterByCreated(e.target.value));
-  //   //setCurrentPage(1)
-  // }
-
-  // function handleSort(e: React.ChangeEvent<HTMLSelectElement>) {
-  //   e.preventDefault();
-  //   dispatch(orderByName(e.target.value));
-  //   setCurrentPage(1);
-  //   setOrden(`Ordenado ${e.target.value}`);
-  // }
-
-  // function handleSortByHealthScore(e: React.ChangeEvent<HTMLSelectElement>) {
-  //   e.preventDefault();
-  //   dispatch(orderByHealthScore(e.target.value));
-  //   setOrden(`Ordenado ${e.target.value}`);
-  //   setCurrentPage(1);
-  // }
-
   // const reloadClick = (e: React.MouseEvent) => {
   //   e.preventDefault();
   //   dispatch(cleanRecipes());
@@ -91,11 +52,6 @@ const Home: React.FC = () => {
       ) : (
         <div className={styles.background}>
           <NavBar
-            allDiets={allDiets}
-            // handleSort={handleSort}
-            // handleFilterDiets={handleFilterDiets}
-            // handleFilterCreated={handleFilterCreated}
-            // handleSortByHealthScore={handleSortByHealthScore}
             // setCurrentPage={setCurrentPage}
             recipesPage={recipesPage}
             allRecipes={allRecipes.length}
@@ -103,7 +59,6 @@ const Home: React.FC = () => {
             // reloadClick={reloadClick}
           />
           <div className={styles.recipeContainer}>
-            console.log(allRecipes)
             {currentRecipes?.map((r) => (
               <Link to={`/Home/${r.id}`} className={styles.link} key={r.id}>
                 <Card

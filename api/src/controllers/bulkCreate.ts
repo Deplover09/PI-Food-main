@@ -70,7 +70,7 @@ const getRecipesApi = async (): Promise<infoRecipe[] | []> => {
           };
         })
       );
-      console.log(response[0]);
+      // console.log(response[0]);
 
       return response;
     }
@@ -145,11 +145,7 @@ const recipesAreComplete = async (): Promise<
 const bulkCreate = async (): Promise<void> => {
   const allRecipes = await dBRecipes();
   const allDiets = await dbDiets();
-  if (
-    allRecipes !== null &&
-    allRecipes !== undefined &&
-    allDiets !== undefined
-  ) {
+  if (allRecipes?.[0] !== undefined && allDiets?.[0] !== undefined) {
     console.log("recipes and diets collection are not empty");
     return undefined;
   }

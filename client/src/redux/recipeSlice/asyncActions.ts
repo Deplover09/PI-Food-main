@@ -75,4 +75,12 @@ const asyncActions = (builder: ActionReducerMapBuilder<State>): void => {
     .addCase(postRecipes.fulfilled, () => {});
 };
 
+export {
+  fetchRecipes,
+  fetchDiets,
+  fetchRecipesByName,
+  fecthRecipesByParams,
+  postRecipes
+};
+
 export default asyncActions;

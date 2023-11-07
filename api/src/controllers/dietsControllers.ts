@@ -1,7 +1,7 @@
 import DietModel, { type Diet } from "../models/dietModel";
 import type mongoose from "mongoose";
 
-interface dietObject {
+export interface dietObject {
   id: string;
   name: string;
   recipes: mongoose.Schema.Types.ObjectId[] | string[];

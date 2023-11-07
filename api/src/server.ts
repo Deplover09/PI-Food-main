@@ -1,8 +1,12 @@
-import express from "express";
+import express, {
+  type Request,
+  type Response,
+  type NextFunction
+} from "express";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import morgan from "morgan";
-// import routes from "./routes/indexRoutes";
+import routes from "./routes/indexRoutes";
 
 const server = express();
 
@@ -21,19 +25,21 @@ server.use((req, res, next) => {
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
   next();
 });
-server.use(
-  (
-    err: Error & { status?: number },
-    req: express.Request,
-    res: express.Response
-  ) => {
-    const status = err.status ?? 500;
-    const message = err.message ?? err;
-    console.error(err);
-    res.status(status).send(message);
-  }
-);
 
-// server.use("/", routes);
+server.use("/", routes);
+
+server.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(`Error: ${error.message}`);
+
+  // Customize the error response as needed
+  const statusCode = 500; // Internal Server Error
+  res.status(statusCode).json({
+    error: {
+      message: error.message,
+      // You can include additional properties in the response, such as a stack trace
+      stack: process.env.NODE_ENV === "development" ? error.stack : undefined
+    }
+  });
+});
 
 export default server;
