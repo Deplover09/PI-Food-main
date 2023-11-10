@@ -6,7 +6,7 @@ import express, {
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import morgan from "morgan";
-// import routes from "./routes/indexRoutes";
+import routes from "./routes/indexRoutes";
 
 const server = express();
 
@@ -26,7 +26,7 @@ server.use((req, res, next) => {
   next();
 });
 
-// server.use("/", routes);
+server.use("/", routes);
 
 server.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(`Error: ${error.message}`);
