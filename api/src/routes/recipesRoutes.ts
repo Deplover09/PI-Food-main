@@ -1,11 +1,7 @@
 import type express from "express";
-import {
-  dBRecipes,
-  dBRecipesByName,
-  dBRecipesByID,
-  saveRecipes
-} from "../controllers/recipesControllers";
-
+import { RecipeModel } from "../models/exportModels";
+import { type Ref } from "@typegoose/typegoose";
+import { type Diet } from "../models/dietModel";
 const getRecipes = async (
   req: express.Request,
   res: express.Response
@@ -14,12 +10,12 @@ const getRecipes = async (
 
   try {
     if (name !== null && name !== undefined) {
-      const recipesFromDbByName = await dBRecipesByName(name);
+      const recipesFromDbByName = await RecipeModel.findByName(name);
       if (recipesFromDbByName !== null && recipesFromDbByName !== undefined)
         return res.send(recipesFromDbByName);
       else return res.status(404).send("recipe not found");
     } else {
-      const recipes = await dBRecipes();
+      const recipes = await RecipeModel.find();
       if (recipes !== null && recipes !== undefined) return res.send(recipes);
       else return res.status(404).send("recipe not found");
     }
@@ -35,7 +31,7 @@ const getRecipesByID = async (
 ): Promise<express.Response> => {
   const { id } = req.params;
   if (id !== undefined && id !== null) {
-    const recipe = await dBRecipesByID(id);
+    const recipe = await RecipeModel.findById(id);
     if (recipe !== undefined && recipe !== null) return res.send(recipe);
   } else return res.status(404).send("recipe not found");
   return res.status(404).send("missing id");
@@ -49,10 +45,8 @@ const postRecipes = async (
   const { image }: { image?: string } = req.body;
   const { healthScore }: { healthScore?: number } = req.body;
   const { summary }: { summary?: string } = req.body;
-  const { steps }: { steps?: string } = req.body;
-  const { diets }: { diets?: string[] } = req.body;
-  const { createdByUsers }: { createdByUsers?: boolean } = req.body;
-  console.log(name, image, healthScore, summary, steps, diets, createdByUsers);
+  const { steps }: { steps?: string[] } = req.body;
+  const { diets }: { diets?: Array<Ref<typeof Diet>> } = req.body;
   if (
     name === undefined ||
     image === undefined ||
@@ -62,14 +56,14 @@ const postRecipes = async (
     diets === undefined
   )
     return res.status(404).send("All recipes characteristics are required");
-  const savingRecipe = await saveRecipes(
+
+  const savingRecipe = await RecipeModel.createRecipe(
     name,
     image,
     healthScore,
     summary,
     steps,
-    diets,
-    createdByUsers
+    diets
   );
   if (savingRecipe !== null && savingRecipe !== undefined)
     return res.send("recipe created");

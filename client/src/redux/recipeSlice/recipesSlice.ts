@@ -4,11 +4,12 @@ import asyncActions from "./asyncActions";
 interface Recipe {
   id: string;
   name: string;
-  image: string;
-  diets: string[];
-  steps: string;
+  summary: string;
   healthScore: number;
-  createdInDb: boolean;
+  image: string;
+  steps: string;
+  dietNames: string[];
+  createdByUsers: boolean;
 }
 interface Diets {
   id: string;
@@ -40,15 +41,15 @@ const recipeSlice = createSlice({
       const typesFiltered =
         action.payload === "types"
           ? allRecipes2
-          : allRecipes2.filter((e) => e.diets?.includes(action.payload));
+          : allRecipes2.filter((e) => e.dietNames?.includes(action.payload));
       state.recipes = typesFiltered;
     },
     filterByCreated: (state: State, action: PayloadAction<string>) => {
       const allRecipes = state.backUpRecipes;
       const createdFilter =
         action.payload === "Created"
-          ? allRecipes.filter((e) => e.createdInDb)
-          : allRecipes.filter((e) => !e.createdInDb);
+          ? allRecipes.filter((e) => e.createdByUsers)
+          : allRecipes.filter((e) => !e.createdByUsers);
       state.recipes = createdFilter;
     },
     orderByName: (state: State, action: PayloadAction<string>) => {

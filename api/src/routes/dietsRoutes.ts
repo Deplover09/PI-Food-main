@@ -1,28 +1,5 @@
+import { DietModel } from "../models/exportModels";
 import type express from "express";
-import {
-  dbDiets,
-  dbDietsByName,
-  dbDietsByID
-} from "../controllers/dietsControllers";
-
-// const getDietsRoute = async (
-//   req: express.Request
-// ): Promise<dietObject | string | dietObject[] | undefined> => {
-//   const { name }: { name?: string } = req.query;
-//   console.log("getDietsRoute is here");
-//   try {
-//     if (name !== undefined && name !== null) {
-//       const dietsFromDbByName = await dbDietsByName(name);
-//       return dietsFromDbByName ?? "diet with that name not found";
-//     }
-
-//     const dietsFromDb = await dbDiets();
-//     console.log(dietsFromDb);
-//     return dietsFromDb ?? "there are not dies in db";
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
 const getDietsRoute = async (
   req: express.Request,
   res: express.Response
@@ -31,12 +8,12 @@ const getDietsRoute = async (
 
   try {
     if (name !== undefined && name !== null) {
-      const dietsFromDbByName = await dbDietsByName(name);
+      const dietsFromDbByName = await DietModel.findByName(name);
       if (dietsFromDbByName !== undefined && dietsFromDbByName !== null)
         return res.send(dietsFromDbByName);
       else return res.status(404).send("diet not found ");
     }
-    const dietsFromDb = await dbDiets();
+    const dietsFromDb = await DietModel.find();
     return res.send(dietsFromDb);
   } catch (err) {
     console.log(err);
@@ -49,7 +26,7 @@ const getDietsIDRoute = async (
 ): Promise<express.Response> => {
   const { id } = req.params;
   if (id !== undefined && id !== null) {
-    const diet = await dbDietsByID(id);
+    const diet = await DietModel.findById(id);
     if (diet !== undefined && diet !== null) return res.send(diet);
     else return res.status(404).send("diet not found");
   } else return res.status(404).send("missing id");

@@ -1,29 +1,27 @@
-import { Schema, model, type Document } from "mongoose";
+import {
+  modelOptions,
+  prop,
+  type Ref,
+  type ReturnModelType
+} from "@typegoose/typegoose";
+import { Recipe } from "./recipeModel";
 
-const dietSchema = new Schema(
-  {
-    name: {
-      type: String,
-      required: true
-    },
-    recipes: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "RecipesCollection"
-      }
-    ]
-  },
-  {
+@modelOptions({
+  schemaOptions: {
     timestamps: true
   }
-);
-
-export interface Diet extends Document {
+})
+export class Diet {
+  @prop({ required: true })
   name: string;
-  recipes: string[] & Schema.Types.ObjectId[];
+
+  @prop({ ref: () => Recipe })
+  recipes?: Array<Ref<typeof Recipe>> | null;
+
+  public static async findByName(
+    this: ReturnModelType<typeof Diet>,
+    name: string
+  ): Promise<Diet | null> {
+    return await this.findOne({ name });
+  }
 }
-
-// const DietModel: Model<Diet & Document> = model("Diet", dietSchema);
-// // const DietModel = model("DietsCollection", dietSchema);
-
-export default model<Diet>("DietsCollection", dietSchema);

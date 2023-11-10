@@ -44,7 +44,7 @@ const Home: React.FC = () => {
   //   dispatch(getRepices());
   //   setCurrentPage(1);
   // };
-
+  console.log(currentRecipes);
   return (
     <div>
       {allRecipes.length === 0 ? (
@@ -58,13 +58,14 @@ const Home: React.FC = () => {
             paginado={paginado}
             // reloadClick={reloadClick}
           />
+
           <div className={styles.recipeContainer}>
             {currentRecipes?.map((r) => (
               <Link to={`/Home/${r.id}`} className={styles.link} key={r.id}>
                 <Card
                   name={r.name}
                   image={r.image}
-                  diets={r.diets.map((d) => d)}
+                  diets={r.dietNames.map((d) => d)}
                   id={r.id}
                 />
               </Link>

@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-import RecipeModel from "./models/recipeModel";
-import DietModel from "./models/dietModel";
-import bulkCreate from "./controllers/bulkCreate";
+import { RecipeModel, DietModel } from "./models/exportModels";
+import bulkCreate from "./bulkCreate";
 
 const runDatabase = async (): Promise<void> => {
   try {

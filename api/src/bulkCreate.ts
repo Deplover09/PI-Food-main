@@ -1,15 +1,8 @@
 import axios from "axios";
-// import { type Recipe } from "../models/recipeModel";
-import { dBRecipes, saveRecipes } from "./recipesControllers";
-import {
-  saveDiets,
-  dbDiets,
-  addRecipeToDietsCollection
-} from "./dietsControllers";
-// import type mongoose from "mongoose";
+import { RecipeModel, DietModel } from "./models/exportModels";
+import { type Schema } from "mongoose";
 import * as dotenv from "dotenv";
 dotenv.config();
-// require("dotenv").config();
 
 const APIKEY = process.env.APIKEY;
 interface recipeApi {
@@ -33,7 +26,7 @@ interface infoRecipe {
   healthScore: number | undefined | null;
   summary: string | undefined | null;
   diets: string[] | undefined | null;
-  steps: string | undefined | null;
+  steps: string[] | undefined | null;
 }
 
 interface allRecipesPropertiesAreThere {
@@ -42,13 +35,13 @@ interface allRecipesPropertiesAreThere {
   healthScore: number;
   summary: string;
   diets: string[];
-  steps: string;
+  steps: string[];
 }
 
 const getRecipesApi = async (): Promise<infoRecipe[] | []> => {
   try {
     const url = await axios.get(
-      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&addRecipeInformation=true&number=200`
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&addRecipeInformation=true&number=500`
     );
 
     const results = url.data.results;
@@ -59,7 +52,7 @@ const getRecipesApi = async (): Promise<infoRecipe[] | []> => {
           const firstStep = (
             result.analyzedInstructions as AnalyzedInstructionsType
           )?.[0]?.steps;
-          const step = firstStep?.map((s) => s.step).join(" \n");
+          const step = firstStep?.map((s) => s.step);
           return {
             name: result.title,
             image: result.image,
@@ -71,24 +64,21 @@ const getRecipesApi = async (): Promise<infoRecipe[] | []> => {
         })
       );
       // console.log(response[0]);
-
       return response;
     }
   } catch (error) {
     console.error(error);
     return [];
   }
-
   return [];
 };
 
 const getDietsApi = async (): Promise<string[]> => {
   try {
     const dietsApi = await axios.get(
-      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&number=100&addRecipeInformation=true`
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&number=500&addRecipeInformation=true`
     );
     const diets = dietsApi.data.results.map((el: recipeApi) => el.diets);
-    // console.log(diets)
     return diets;
   } catch (error) {
     console.error(error);
@@ -100,12 +90,10 @@ const bulkCreateDiets = async (arr: string[]): Promise<void> => {
   const dietsArray = arr.flat();
 
   const removeDuplicates = Array.from(new Set(dietsArray));
-
-  await Promise.all(
-    removeDuplicates.map(async (diet: string) => {
-      await saveDiets(diet);
-    })
-  );
+  const strignToObj = removeDuplicates.map((d) => {
+    return { name: d };
+  });
+  await DietModel.insertMany(strignToObj);
 };
 
 const recipesAreComplete = async (): Promise<
@@ -120,7 +108,7 @@ const recipesAreComplete = async (): Promise<
         healthScore: obj.healthScore ?? 0,
         summary: obj.summary ?? "",
         diets: obj.diets ?? [],
-        steps: obj.steps ?? ""
+        steps: obj.steps ?? []
       };
 
       // Check if any property in the filtered object is empty
@@ -143,43 +131,63 @@ const recipesAreComplete = async (): Promise<
 };
 
 const bulkCreate = async (): Promise<void> => {
-  const allRecipes = await dBRecipes();
-  const allDiets = await dbDiets();
+  const allRecipes = await RecipeModel.find();
+  const allDiets = await DietModel.find();
   if (allRecipes?.[0] !== undefined && allDiets?.[0] !== undefined) {
     console.log("recipes and diets collection are not empty");
     return undefined;
   }
-
   const dietsFromApi = await getDietsApi();
 
   await bulkCreateDiets(dietsFromApi);
   const recipesComplete = await recipesAreComplete();
-  recipesComplete !== null &&
+  if (
+    recipesComplete !== null &&
     recipesComplete !== undefined &&
-    allDiets !== undefined &&
-    (await Promise.all(
-      recipesComplete.map(async (recipe) => {
-        const { name, image, healthScore, summary, steps, diets } = recipe;
-        const repiceSaved = await saveRecipes(
-          name,
-          image,
-          healthScore,
-          summary,
-          steps,
-          diets
-        );
-        repiceSaved !== null &&
-          repiceSaved !== undefined &&
+    allDiets !== undefined
+  ) {
+    const PropertiesForRecipes = await Promise.all(
+      recipesComplete.map(async (r) => {
+        const idDietsObj: Array<Schema.Types.ObjectId | null> =
           (await Promise.all(
-            repiceSaved.diets.map(async (d) => {
-              return await addRecipeToDietsCollection(
-                d,
-                repiceSaved._id.toString()
-              );
+            r.diets.map(async (d) => {
+              const dietObj = await DietModel.findByName(d);
+              if (
+                dietObj !== null &&
+                dietObj !== undefined &&
+                "_id" in dietObj
+              ) {
+                return dietObj._id;
+              } else {
+                return null;
+              }
             })
-          ));
+          )) as Array<Schema.Types.ObjectId | null>;
+        return {
+          name: r.name,
+          image: r.image,
+          healthScore: r.healthScore,
+          summary: r.summary,
+          steps: r.steps,
+          diets: idDietsObj
+        };
       })
-    ));
+    );
+    await RecipeModel.insertMany(PropertiesForRecipes);
+
+    const allRecipes = await RecipeModel.find();
+    for (const r of allRecipes) {
+      r.diets !== undefined &&
+        r.diets !== null &&
+        (await Promise.all(
+          r.diets.map(async (d) => {
+            return await DietModel.findByIdAndUpdate(d, {
+              recipes: r._id
+            });
+          })
+        ));
+    }
+  }
 };
 
 export default bulkCreate;
