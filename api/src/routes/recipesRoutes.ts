@@ -33,7 +33,7 @@ const getRecipesByID = async (
   const { id } = req.params;
   try {
     if (id !== undefined && id !== null) {
-      const recipe = await RecipeModel.findById(id);
+      const recipe = await RecipeModel.findById(id).populate("diets").exec();
       if (recipe !== undefined && recipe !== null) return res.send(recipe);
     } else return res.status(404).send("recipe not found");
     return res.status(404).send("missing id");

@@ -77,7 +77,19 @@ const fecthRecipesByParams = createAsyncThunk(
   "recipe/fetchRecipesByParams",
   async (id: string) => {
     const response = await axios.get(`http://localhost:3001/recipes/${id}`);
-    return response.data;
+    const recipeData: RecipeApi = response.data;
+    const dietName = recipeData.diets.map((d) => d.name);
+    const dataToReturn: Recipe = {
+      id: recipeData._id,
+      name: recipeData.name,
+      summary: recipeData.summary,
+      healthScore: recipeData.healthScore,
+      image: recipeData.image,
+      steps: recipeData.steps,
+      diets: dietName,
+      createdByUsers: recipeData.createdByUsers
+    };
+    return dataToReturn;
   }
 );
 
