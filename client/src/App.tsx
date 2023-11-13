@@ -9,19 +9,17 @@ import Home from "./Components/Home/Home.tsx";
 
 const App: React.FC = () => {
   return (
-    <>
-      <BrowserRouter>
-        <div className="app">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            {/* <Route path="/Home" element={<Home />} />
+    <BrowserRouter>
+      <div className="app">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/* <Route path="/Home" element={<Home />} />
             <Route path="/CreateRecipe" element={<CreateRecipe />} />
             <Route path="/Home/:id" element={<IDCard />} />
             <Route path="/About" element={<About />} /> */}
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </>
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 };
 

@@ -3,15 +3,16 @@ import {
   useCustomDispatch,
   useCustomSelector
 } from "../../../redux/hooks/hooks";
-import { orderByName } from "../../../redux/recipeSlice/recipesSlice";
+import { filterByDiet } from "../../../redux/recipeSlice/recipesSlice";
 import styles from "../NavBar.module.css";
 
 const FilterByDiet: React.FC = () => {
   const dispatch = useCustomDispatch();
   const { diets: allDiets } = useCustomSelector((state) => state.recipe);
   const handleFilterDiets = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    dispatch(orderByName(e.target.value));
+    dispatch(filterByDiet(e.target.value));
   };
+  const dietsIWant = allDiets?.filter((d) => d.name !== "ketogenic");
   return (
     <select
       className={styles.selectBar}
@@ -19,8 +20,8 @@ const FilterByDiet: React.FC = () => {
         handleFilterDiets(e);
       }}
     >
-      <option value="">Select Diets</option>
-      {allDiets?.map((diet) => {
+      <option value="types">Filter by diets</option>
+      {dietsIWant?.map((diet) => {
         return (
           <option value={diet.name} key={diet.id}>
             {diet.name}

@@ -1,6 +1,5 @@
 import { DietModel } from "../models/exportModels";
 import type express from "express";
-import mongoose from "mongoose";
 
 const getDietsRoute = async (
   req: express.Request,
@@ -9,7 +8,6 @@ const getDietsRoute = async (
   const { name }: { name?: string } = req.query;
 
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/foods");
     if (name !== undefined && name !== null) {
       const dietsFromDbByName = await DietModel.findByName(name);
       if (dietsFromDbByName !== undefined && dietsFromDbByName !== null)
@@ -21,8 +19,6 @@ const getDietsRoute = async (
   } catch (err) {
     console.log(err);
     return res.status(500).send(err);
-  } finally {
-    mongoose.disconnect();
   }
 };
 const getDietsIDRoute = async (
@@ -31,7 +27,6 @@ const getDietsIDRoute = async (
 ): Promise<express.Response> => {
   const { id } = req.params;
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/foods");
     if (id !== undefined && id !== null) {
       const diet = await DietModel.findById(id);
       if (diet !== undefined && diet !== null) return res.send(diet);
@@ -40,8 +35,6 @@ const getDietsIDRoute = async (
   } catch (err) {
     console.log(err);
     return res.status(500).send(err);
-  } finally {
-    mongoose.disconnect();
   }
 };
 export { getDietsRoute, getDietsIDRoute };

@@ -33,8 +33,6 @@ const runDatabase = async (): Promise<void> => {
     await bulkCreate();
   } catch (error) {
     console.error("Error restarting database foods", error);
-  } finally {
-    await mongoose.disconnect();
   }
 };
 

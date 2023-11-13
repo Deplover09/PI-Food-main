@@ -8,12 +8,13 @@ interface CardProps {
   id: string;
 }
 
-export default function Card({ name, image, diets, id }: CardProps) {
+const Card: React.FC<CardProps> = ({ name, image, diets }) => {
   return (
     <div className={styles.mainContainer}>
       <img className={styles.image} src={image} alt="img not found" />
       <h3 className={styles.title}>{name}</h3>
-      <p className={styles.diets}>Types: {diets.join(", ")}</p>
+      <p className={styles.diets}>Types: {diets.join(", ") + "."}</p>
     </div>
   );
-}
+};
+export default Card;

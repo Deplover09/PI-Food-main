@@ -39,7 +39,7 @@ export class Recipe {
     this: ReturnModelType<typeof Recipe>,
     name: string
   ): Promise<DocumentType<Recipe> | null> {
-    return await this.findOne({ name });
+    return await this.findOne({ name }).populate("diets").exec();
   }
 
   public static async createRecipe(

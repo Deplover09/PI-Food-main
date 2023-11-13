@@ -1,16 +1,52 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const recipesRoutes_1 = __importDefault(require("./recipesRoutes"));
-// const recipesParamsRoute = require('./getRecipeParams.js')
-// const dietsRoute = require ('./getDiets.js')
-// const postRoute = require ('./postRecipe.js')
+const dietsRoutes_1 = require("./dietsRoutes");
+const recipesRoutes_1 = require("./recipesRoutes");
 const router = (0, express_1.Router)();
-router.use('/recipes', recipesRoutes_1.default);
-// router.use('/recipesParams', recipesParamsRoute); //715594
-// router.use('/diets', dietsRoute);
-// router.use('/postRecipe', postRoute)
+router.get("/diets", (req, res) => {
+    (0, dietsRoutes_1.getDietsRoute)(req, res)
+        .then(() => {
+        console.log("/diets");
+    })
+        .catch((error) => {
+        console.error("/diets", error);
+    });
+});
+router.get("/diets/:id", (req, res) => {
+    (0, dietsRoutes_1.getDietsIDRoute)(req, res)
+        .then(() => {
+        console.log("/diets/:id");
+    })
+        .catch((error) => {
+        console.error("/diets/:id", error);
+    });
+});
+router.get("/recipes", (req, res) => {
+    (0, recipesRoutes_1.getRecipes)(req, res)
+        .then(() => {
+        console.log("/recipes");
+    })
+        .catch((error) => {
+        console.error("/recipes", error);
+    });
+});
+router.get("/recipes/:id", (req, res) => {
+    (0, recipesRoutes_1.getRecipesByID)(req, res)
+        .then(() => {
+        console.log("/recipes/:id");
+    })
+        .catch((error) => {
+        console.error("/recipes/:id", error);
+    });
+});
+router.post("/recipes", (req, res) => {
+    (0, recipesRoutes_1.postRecipes)(req, res)
+        .then(() => {
+        console.log("/recipes");
+    })
+        .catch((error) => {
+        console.error("/recipes", error);
+    });
+});
 exports.default = router;

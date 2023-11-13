@@ -8,28 +8,75 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const { getInfoByName, getAllInfo, getDBInfo } = require("./functions");
-// infoTotal, nameApi, infoDB,
-const router = express_1.default.Router();
+exports.postRecipes = exports.getRecipesByID = exports.getRecipes = void 0;
+const exportModels_1 = require("../models/exportModels");
 const getRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name } = req.query;
+    const { name } = req.body;
     try {
-        if (name) {
-            const infoByName = yield getInfoByName(name);
-            return res.send(infoByName);
+        if (name !== null && name !== undefined) {
+            const recipesFromDbByName = yield exportModels_1.RecipeModel.findByName(name);
+            if (recipesFromDbByName !== null && recipesFromDbByName !== undefined)
+                return res.send(recipesFromDbByName);
+            else
+                return res.status(404).send("recipe not found");
         }
         else {
-            const repiceTotal = yield getAllInfo();
-            return res.send(repiceTotal);
+            const recipes = yield exportModels_1.RecipeModel.find().populate("diets").exec();
+            if (recipes !== null && recipes !== undefined)
+                return res.send(recipes);
+            else
+                return res.status(404).send("recipe not found");
         }
     }
     catch (err) {
         console.log(err);
+        return res.status(500).send(err);
     }
 });
-exports.default = getRecipes;
+exports.getRecipes = getRecipes;
+const getRecipesByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        if (id !== undefined && id !== null) {
+            const recipe = yield exportModels_1.RecipeModel.findById(id);
+            if (recipe !== undefined && recipe !== null)
+                return res.send(recipe);
+        }
+        else
+            return res.status(404).send("recipe not found");
+        return res.status(404).send("missing id");
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).send(err);
+    }
+});
+exports.getRecipesByID = getRecipesByID;
+const postRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name } = req.body;
+    const { image } = req.body;
+    const { healthScore } = req.body;
+    const { summary } = req.body;
+    const { steps } = req.body;
+    const { diets } = req.body;
+    if (name === undefined ||
+        image === undefined ||
+        healthScore === undefined ||
+        summary === undefined ||
+        steps === undefined ||
+        diets === undefined)
+        return res.status(404).send("All recipes characteristics are required");
+    try {
+        const savingRecipe = yield exportModels_1.RecipeModel.createRecipe(name, image, healthScore, summary, steps, diets);
+        if (savingRecipe !== null && savingRecipe !== undefined)
+            return res.send("recipe created");
+        else
+            return res.status(404).send("recipe not created");
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).send(err);
+    }
+});
+exports.postRecipes = postRecipes;

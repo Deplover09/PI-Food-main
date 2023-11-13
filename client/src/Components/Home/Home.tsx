@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useCustomDispatch, useCustomSelector } from "../../redux/hooks/hooks";
 import { Link } from "react-router-dom";
 import { fetchRecipes, fetchDiets } from "../../redux/recipeSlice/asyncActions";
+import { clearRecipes } from "../../redux/recipeSlice/recipesSlice";
 import Card from "./Card/Card";
 import NavBar from "../NavBar/NavBar";
 import styles from "./home.module.css";
@@ -13,7 +14,7 @@ const Home: React.FC = () => {
 
   // const [orden, setOrden] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [recipesPage, setRecipesPage] = useState<number>(9);
+  const [recipesPage] = useState<number>(9);
   const indexOfLastRecipe = currentPage * recipesPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPage;
   const currentRecipes = allRecipes.slice(
@@ -26,24 +27,16 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log("se manda");
     dispatch(fetchRecipes());
     dispatch(fetchDiets());
-    console.log("se mandado");
   }, [dispatch]);
 
-  // const handleClick = (e: React.MouseEvent) => {
-  //   e.preventDefault();
-  //   dispatch(fetchRecipes());
-  //   setCurrentPage(1);
-  // };
-
-  // const reloadClick = (e: React.MouseEvent) => {
-  //   e.preventDefault();
-  //   dispatch(cleanRecipes());
-  //   dispatch(getRepices());
-  //   setCurrentPage(1);
-  // };
+  const reloadList = (e: React.MouseEvent): void => {
+    e.preventDefault();
+    dispatch(clearRecipes());
+    dispatch(dispatch(fetchRecipes));
+    setCurrentPage(1);
+  };
   console.log(currentRecipes);
   return (
     <div>
@@ -52,11 +45,11 @@ const Home: React.FC = () => {
       ) : (
         <div className={styles.background}>
           <NavBar
-            // setCurrentPage={setCurrentPage}
+            setCurrentPage={setCurrentPage}
             recipesPage={recipesPage}
             allRecipes={allRecipes.length}
             paginado={paginado}
-            // reloadClick={reloadClick}
+            reloadList={reloadList}
           />
 
           <div className={styles.recipeContainer}>
@@ -65,7 +58,7 @@ const Home: React.FC = () => {
                 <Card
                   name={r.name}
                   image={r.image}
-                  diets={r.dietNames.map((d) => d)}
+                  diets={r.diets.map((d) => d)}
                   id={r.id}
                 />
               </Link>

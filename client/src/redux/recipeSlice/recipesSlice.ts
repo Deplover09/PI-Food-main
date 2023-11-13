@@ -7,8 +7,8 @@ interface Recipe {
   summary: string;
   healthScore: number;
   image: string;
-  steps: string;
-  dietNames: string[];
+  steps: string[];
+  diets: string[];
   createdByUsers: boolean;
 }
 interface Diets {
@@ -41,50 +41,47 @@ const recipeSlice = createSlice({
       const typesFiltered =
         action.payload === "types"
           ? allRecipes2
-          : allRecipes2.filter((e) => e.dietNames?.includes(action.payload));
+          : allRecipes2.filter((e) => e.diets?.includes(action.payload));
       state.recipes = typesFiltered;
     },
     filterByCreated: (state: State, action: PayloadAction<string>) => {
-      const allRecipes = state.backUpRecipes;
-      const createdFilter =
-        action.payload === "Created"
-          ? allRecipes.filter((e) => e.createdByUsers)
-          : allRecipes.filter((e) => !e.createdByUsers);
-      state.recipes = createdFilter;
+      const allRecipes = state.recipes;
+      action.payload === "Created" &&
+        (state.recipes = allRecipes.filter((e) => e.createdByUsers));
+      action.payload === "Api" &&
+        (state.recipes = allRecipes.filter((e) => !e.createdByUsers));
     },
     orderByName: (state: State, action: PayloadAction<string>) => {
-      const orderName =
-        action.payload === "asc"
-          ? state.recipes.sort(function (a, b) {
-              if (a.name > b.name) {
-                return 1;
-              }
-              if (b.name > a.name) {
-                return -1;
-              }
-              return 0;
-            })
-          : state.recipes.sort(function (a, b) {
-              if (a.name > b.name) {
-                return -1;
-              }
-              if (b.name > a.name) {
-                return 1;
-              }
-              return 0;
-            });
-      state.recipes = orderName;
+      action.payload === "A to Z" &&
+        (state.recipes = state.recipes.sort(function (a, b) {
+          if (a.name > b.name) {
+            return 1;
+          }
+          if (b.name > a.name) {
+            return -1;
+          }
+          return 0;
+        }));
+      action.payload === "Z to A" &&
+        (state.recipes = state.recipes.sort(function (a, b) {
+          if (a.name > b.name) {
+            return -1;
+          }
+          if (b.name > a.name) {
+            return 1;
+          }
+          return 0;
+        }));
     },
     orderByHealthScore: (state: State, action: PayloadAction<string>) => {
-      const orderScore =
-        action.payload === "asc"
-          ? state.recipes.sort(function (a, b) {
-              return b.healthScore - a.healthScore;
-            })
-          : state.recipes.sort(function (a, b) {
-              return a.healthScore - b.healthScore;
-            });
-      state.recipes = orderScore;
+      action.payload === "asc" &&
+        (state.recipes = state.recipes.sort(function (a, b) {
+          return b.healthScore - a.healthScore;
+        }));
+      action.payload === "des" &&
+        (state.recipes = state.recipes.sort(function (a, b) {
+          return a.healthScore - b.healthScore;
+        }));
     },
     clearDetail: (state: State) => {
       state.detail = undefined;
