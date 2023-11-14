@@ -58,7 +58,7 @@ const getRecipesApi = async (): Promise<infoRecipe[] | []> => {
             image: result.image,
             healthScore: result.healthScore,
             diets: result.diets?.map((element: string) => element),
-            summary: result.summary,
+            summary: result.summary?.replace(/<[^>]*>?/g, ""),
             steps: step
           };
         })
