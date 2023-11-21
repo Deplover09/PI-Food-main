@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postRecipes = exports.getRecipesByID = exports.getRecipes = void 0;
 const exportModels_1 = require("../models/exportModels");
 const getRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name } = req.body;
+    const { name } = req.query;
     try {
         if (name !== null && name !== undefined) {
             const recipesFromDbByName = yield exportModels_1.RecipeModel.findByName(name);
@@ -39,7 +39,7 @@ const getRecipesByID = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const { id } = req.params;
     try {
         if (id !== undefined && id !== null) {
-            const recipe = yield exportModels_1.RecipeModel.findById(id);
+            const recipe = yield exportModels_1.RecipeModel.findById(id).populate("diets").exec();
             if (recipe !== undefined && recipe !== null)
                 return res.send(recipe);
         }
@@ -60,6 +60,7 @@ const postRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const { summary } = req.body;
     const { steps } = req.body;
     const { diets } = req.body;
+    console.log(req.body);
     if (name === undefined ||
         image === undefined ||
         healthScore === undefined ||
@@ -68,7 +69,7 @@ const postRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         diets === undefined)
         return res.status(404).send("All recipes characteristics are required");
     try {
-        const savingRecipe = yield exportModels_1.RecipeModel.createRecipe(name, image, healthScore, summary, steps, diets);
+        const savingRecipe = yield exportModels_1.RecipeModel.createRecipe(name, summary, healthScore, image, steps, diets);
         if (savingRecipe !== null && savingRecipe !== undefined)
             return res.send("recipe created");
         else

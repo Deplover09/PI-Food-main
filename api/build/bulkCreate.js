@@ -46,7 +46,7 @@ const getRecipesApi = () => __awaiter(void 0, void 0, void 0, function* () {
         const results = url.data.results;
         if (results.length > 0) {
             const response = yield Promise.all(results.map((result) => {
-                var _a, _b, _c;
+                var _a, _b, _c, _d;
                 const firstStep = (_b = (_a = result.analyzedInstructions) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.steps;
                 const step = firstStep === null || firstStep === void 0 ? void 0 : firstStep.map((s) => s.step);
                 return {
@@ -54,7 +54,7 @@ const getRecipesApi = () => __awaiter(void 0, void 0, void 0, function* () {
                     image: result.image,
                     healthScore: result.healthScore,
                     diets: (_c = result.diets) === null || _c === void 0 ? void 0 : _c.map((element) => element),
-                    summary: result.summary,
+                    summary: (_d = result.summary) === null || _d === void 0 ? void 0 : _d.replace(/<[^>]*>?/g, ""),
                     steps: step
                 };
             }));

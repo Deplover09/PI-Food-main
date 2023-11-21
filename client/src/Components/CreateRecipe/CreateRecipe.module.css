@@ -45,6 +45,8 @@ input.danger {
   align-self: left;
   font-family: Lato, Arial, Helvetica, sans-serif;
   font-size: 50px;
+  color:#fff;
+
 }
 
 .formContainer {

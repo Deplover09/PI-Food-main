@@ -26,7 +26,7 @@ const exportModels_1 = require("../models/exportModels");
 let Recipe = Recipe_1 = class Recipe {
     static findByName(name) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.findOne({ name });
+            return yield this.findOne({ name }).populate("diets").exec();
         });
     }
     static createRecipe(name, summary, healthScore, image, steps, diets) {

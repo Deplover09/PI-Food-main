@@ -6,7 +6,7 @@ import { clearRecipes } from "../../redux/recipeSlice/recipesSlice";
 import Card from "./Card/Card";
 import NavBar from "../NavBar/NavBar";
 import styles from "./home.module.css";
-// import Repices0 from "./Repices0/Repices0";
+import loading from "../../images/loading.gif";
 
 const Home: React.FC = () => {
   const dispatch = useCustomDispatch();
@@ -37,33 +37,30 @@ const Home: React.FC = () => {
     dispatch(dispatch(fetchRecipes));
     setCurrentPage(1);
   };
-  console.log(currentRecipes);
   return (
-    <div>
-      {allRecipes.length === 0 ? (
-        "no hay nada"
-      ) : (
-        <div className={styles.background}>
-          <NavBar
-            setCurrentPage={setCurrentPage}
-            recipesPage={recipesPage}
-            allRecipes={allRecipes.length}
-            paginado={paginado}
-            reloadList={reloadList}
-          />
+    <div className={styles.background}>
+      <NavBar
+        setCurrentPage={setCurrentPage}
+        recipesPage={recipesPage}
+        allRecipes={allRecipes.length}
+        paginado={paginado}
+        reloadList={reloadList}
+      />
 
-          <div className={styles.recipeContainer}>
-            {currentRecipes?.map((r) => (
-              <Link to={`/Home/${r.id}`} className={styles.link} key={r.id}>
-                <Card
-                  name={r.name}
-                  image={r.image}
-                  diets={r.diets.map((d) => d)}
-                  id={r.id}
-                />
-              </Link>
-            ))}
-          </div>
+      {allRecipes.length === 0 ? (
+        <img className={styles.loading} src={loading} alt="loading" />
+      ) : (
+        <div className={styles.recipeContainer}>
+          {currentRecipes?.map((r) => (
+            <Link to={`/Home/${r.id}`} className={styles.link} key={r.id}>
+              <Card
+                name={r.name}
+                image={r.image}
+                diets={r.diets.map((d) => d)}
+                id={r.id}
+              />
+            </Link>
+          ))}
         </div>
       )}
     </div>
