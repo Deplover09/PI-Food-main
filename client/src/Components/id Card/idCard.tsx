@@ -23,6 +23,15 @@ const IDCard: React.FC = () => {
   const lastChar = dietsText?.slice(-1);
   const replacedLastChar = lastChar === "." ? lastChar : ".";
   const dietsFinalText = `${firstLetter}${restOfString}${replacedLastChar}`;
+  const steps = detail?.steps;
+  const customSteps = steps?.map((s): string => {
+    const firstLetter = s.charAt(0).toUpperCase();
+    const restOfString = s.slice(1, -1);
+    const lastChar = s.slice(-1);
+    const replacedLastChar = lastChar === "." ? lastChar : ".";
+    const stepsFinalText = `${firstLetter}${restOfString}${replacedLastChar}`;
+    return stepsFinalText;
+  });
   return (
     <div className={styles.container}>
       <Link to="/" style={{ textDecoration: "none" }}>
@@ -62,7 +71,20 @@ const IDCard: React.FC = () => {
 
           <div className={styles.stepsContainer}>
             <h3 className={styles.subTitle}>Step by Step</h3>
-            <p className={styles.info}>{detail.steps}</p>
+
+            {customSteps !== null && customSteps !== undefined ? (
+              <ol>
+                {customSteps.map((s, index) => {
+                  return (
+                    <li key={index} className={styles.info}>
+                      {s}
+                    </li>
+                  );
+                })}
+              </ol>
+            ) : (
+              <p>No steps available</p>
+            )}
           </div>
         </div>
       ) : (

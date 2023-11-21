@@ -12,7 +12,7 @@ interface Recipe {
   createdByUsers: boolean;
 }
 interface Diets {
-  id: string;
+  _id: string;
   name: string;
   recipes: string[];
 }

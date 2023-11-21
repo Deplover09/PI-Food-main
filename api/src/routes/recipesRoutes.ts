@@ -53,6 +53,7 @@ const postRecipes = async (
   const { summary }: { summary?: string } = req.body;
   const { steps }: { steps?: string[] } = req.body;
   const { diets }: { diets?: Array<Ref<typeof Diet>> } = req.body;
+  console.log(req.body);
   if (
     name === undefined ||
     image === undefined ||
@@ -65,9 +66,9 @@ const postRecipes = async (
   try {
     const savingRecipe = await RecipeModel.createRecipe(
       name,
-      image,
-      healthScore,
       summary,
+      healthScore,
+      image,
       steps,
       diets
     );

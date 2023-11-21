@@ -1,10 +1,10 @@
-import React from 'react';
-import styles from './index.module.css';
-import nodeJs from '../../../images/nodeJs.jpg';
+import React from "react";
+import styles from "./index.module.css";
+import nodeJs from "../../../images/nodeJs.jpg";
 
 export default function About() {
-  const LinkedIn = 'https://www.linkedin.com/in/santiago-acu%C3%B1a-894ba9256/';
-  const GitHub = 'https://github.com/Santiago-Acuna';
+  const LinkedIn = "https://www.linkedin.com/in/santiago-acu%C3%B1a-894ba9256/";
+  const GitHub = "https://github.com/Santiago-Acuna";
 
   return (
     <div className={`${styles.container} ${styles.fadeIN}`}>
@@ -72,24 +72,20 @@ export default function About() {
               />
             </a>
             <a href="https://nodejs.org/es/docs/">
-              <img
-                className={styles.icon}
-                src={nodeJs}
-                alt="NodeJs"
-              />
+              <img className={styles.icon} src={nodeJs} alt="NodeJs" />
             </a>
-            <a href="https://sequelize.org/">
+            <a href="https://www.mongodb.com/es">
               <img
                 className={styles.icon}
-                src="https://erandro.github.io/EranPort/assets/images/sequelize.png"
-                alt="Sequelize"
+                src="https://erandro.github.io/EranPort/assets/images/mongodb.png"
+                alt="Mongo DB"
               />
             </a>
             <a href="https://www.postgresql.org/">
               <img
                 className={styles.icon}
-                src="https://cdn6.f-cdn.com/contestentries/216177/9262059/5550f98d5b7e5_thumb900.jpg"
-                alt="PostgreSQL"
+                src="https://erandro.github.io/EranPort/assets/images/typescript.png"
+                alt="Typescript"
               />
             </a>
             <a href="https://developer.mozilla.org/es/docs/Learn/CSS/CSS_layout/Responsive_Design">

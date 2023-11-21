@@ -67,6 +67,7 @@ input.danger {
 .subContainer {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .subTitle {
@@ -200,4 +201,38 @@ input.danger {
   background-color: rgb(255, 0, 0);
   border: none;
   color: #000000;
+}
+
+.dropzone {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  height: 30%;
+  width: 100%;
+  border: 5px dashed rgb(117, 112, 112);
+  padding: 2rem;
+}
+.btnSelectImg{
+  width: 20%;
+  align-self: center;
+  margin: 5% 0;
+}
+.urlImgDiv{
+  width: 80%;
+  display: flex;
+  flex-direction:column ;
+  align-items: center;
+}
+.urlImg{
+align-self: center;
+  width: 50%;
+  margin-bottom: 5%;
+  
+}
+.cancelBtn{
+  width: 20%;
+  align-self: center;
+  margin-bottom: 5%;
 }

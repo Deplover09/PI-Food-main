@@ -4,6 +4,7 @@ import {
   type ActionReducerMapBuilder,
   createAsyncThunk
 } from "@reduxjs/toolkit";
+import noImg from "../../images/noImage.png";
 import axios from "axios";
 interface DietObject {
   _id: string;
@@ -92,10 +93,19 @@ const fecthRecipesByParams = createAsyncThunk(
     return dataToReturn;
   }
 );
+export interface postRecipesProps {
+  name: string;
+  summary: string;
+  healthScore: number;
+  image: string;
+  steps: string[];
+  diets: string[];
+}
 
 const postRecipes = createAsyncThunk(
   "recipe/postRecipes",
-  async (recipe: Recipe) => {
+  async (recipe: postRecipesProps) => {
+    if (recipe.image === "") recipe.image = noImg;
     const response = await axios.post("http://localhost:3001/recipes", recipe);
     return response.data;
   }
