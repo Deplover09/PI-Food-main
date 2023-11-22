@@ -37,8 +37,8 @@ const InputForm: React.FC<inputFormProps> = ({
             handleChange(e);
           }}
         />
-        {errors.name !== undefined && (
-          <p className={styles.danger}>{errors.name}</p>
+        {errors[inputName] !== undefined && (
+          <p className={styles.danger}>{errors[inputName]}</p>
         )}
       </div>
     );
@@ -60,8 +60,8 @@ const InputForm: React.FC<inputFormProps> = ({
           handleChange(e);
         }}
       />
-      {errors.name !== undefined && (
-        <p className={styles.danger}>{errors.name}</p>
+      {errors[inputName] !== undefined && (
+        <p className={styles.danger}>{errors[inputName]}</p>
       )}
     </div>
   );

@@ -40,7 +40,8 @@ const validate = ({ input, setDisabled, setErrors }: validateProps): void => {
     setDisabled(true);
   }
 
-  if (input.diets.length === 0) {
+  if (input.diets.length === 0 || input.diets[0] === "") {
+    errors.steps = "At least one step is required";
     setDisabled(true);
   } else {
     setDisabled(false);

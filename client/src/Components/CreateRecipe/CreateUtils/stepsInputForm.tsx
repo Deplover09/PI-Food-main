@@ -70,8 +70,8 @@ const StepsInputForm: React.FC<StepsInputFormProps> = ({
           </button>
         </div>
       ))}
-      {errors.name !== undefined && (
-        <p className={styles.danger}>{errors.name}</p>
+      {errors[inputName] !== undefined && (
+        <p className={styles.danger}>{errors[inputName]}</p>
       )}
     </div>
   );
