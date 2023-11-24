@@ -27,16 +27,19 @@ const NavBar: React.FC<NavBarProps> = ({
   reloadList
 }) => {
   return (
-    <div>
+    <div className={styles.navbarContainer}>
       <div className={styles.firstContainer}>
-        <h1 className={styles.homeTitle}>Recipe Book</h1>
-
-        <Link to="/CreateRecipe">
-          <button className={styles.button}>Create Recipe</button>
-        </Link>
-        <Link to="/About">
-          <button className={styles.button2}>About</button>
-        </Link>
+        <div className={styles.homeDiv}>
+          <h1 className={styles.homeTitle}>Recipe Book</h1>
+        </div>
+        <div className={styles.linkDivs}>
+          <Link className={styles.linkBtn} to="/CreateRecipe">
+            Create Recipe
+          </Link>
+          <Link className={styles.linkBtn2} to="/About">
+            About
+          </Link>
+        </div>
       </div>
       {
         <div>
@@ -71,7 +74,7 @@ const NavBar: React.FC<NavBarProps> = ({
             />
           </div>
           <button
-            className={styles.button}
+            className={styles.btn}
             onClick={(e) => {
               reloadList(e);
             }}

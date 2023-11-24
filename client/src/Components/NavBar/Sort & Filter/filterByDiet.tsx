@@ -23,7 +23,7 @@ const FilterByDiet: React.FC = () => {
       <option value="types">Filter by diets</option>
       {dietsIWant?.map((diet) => {
         return (
-          <option value={diet.name} key={diet.id}>
+          <option value={diet.name} key={diet._id}>
             {diet.name}
           </option>
         );
