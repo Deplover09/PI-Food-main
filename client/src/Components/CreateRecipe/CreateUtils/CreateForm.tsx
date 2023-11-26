@@ -47,11 +47,12 @@ const CreateRecipeForm: React.FC = () => {
     dispatch(fetchDiets());
   }, []);
   useEffect(() => {
-    setInput({
-      ...input,
-      diets: dietsSelected.map((d) => d._id)
-    });
-  }, [dietsSelected]);
+    // setInput({
+    //   ...input,
+    //   diets: dietsSelected.map((d) => d._id)
+    // });
+    validate({ input, setDisabled, setErrors });
+  }, [input]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -60,14 +61,15 @@ const CreateRecipeForm: React.FC = () => {
       ...input,
       [e.target.name]: e.target.value
     });
-    validate({ input, setDisabled, setErrors });
   };
   const handleSelectFordiets = (diet: dietObj): void => {
     setDietsSelected([...new Set([...dietsSelected, diet])]);
+    setInput({ ...input, diets: [...new Set([...input.diets, diet._id])] });
   };
 
-  const handleDietsDelete = (e: string): void => {
-    setDietsSelected(dietsSelected.filter((d) => d.name !== e));
+  const handleDietsDelete = (diet: dietObj): void => {
+    setDietsSelected(dietsSelected.filter((d) => d.name !== diet.name));
+    setInput({ ...input, diets: input.diets.filter((d) => d !== diet._id) });
   };
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
@@ -132,6 +134,7 @@ const CreateRecipeForm: React.FC = () => {
         handleSelectFordiets={handleSelectFordiets}
         handleDietsDelete={handleDietsDelete}
         dietsSelected={dietsSelected}
+        errors={errors}
       />
 
       <StepsInputForm

@@ -6,11 +6,9 @@ import CreateRecipeForm from "./CreateUtils/CreateForm";
 const CreateRecipe: React.FC = () => {
   return (
     <div className={styles.background}>
-      <div className={styles.backButton}>
-        <Link to="/">
-          <button className={styles.button}>Back</button>
-        </Link>
-      </div>
+      <Link className={styles.button} to="/">
+        Back
+      </Link>
       <h1 className={styles.mainTitle}>Create your own Recipe</h1>
       <CreateRecipeForm />
     </div>

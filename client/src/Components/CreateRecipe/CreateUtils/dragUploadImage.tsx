@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import styles from "../CreateRecipe.module.css";
 import { type recipeFormState } from "./CreateForm";
 import UploadImage from "./uploadImage";
@@ -20,9 +20,8 @@ const DragDropFiles: React.FC<DragDropFilesProps> = ({
   input,
   setInput
 }) => {
-  // const [files, setFiles] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  // const [urlImg, setUrlImg] = useState<string>("");
+  const [isImageValid, setIsImageValid] = useState<boolean | null>(null);
 
   const handleDragOver = (
     event: React.DragEvent<HTMLDivElement | HTMLParagraphElement>
@@ -61,7 +60,45 @@ const DragDropFiles: React.FC<DragDropFilesProps> = ({
       image: ""
     });
   };
-  if (input.image !== "") {
+  const handleUrlInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const imageUrl = e.target.value;
+    console.log(typeof e.target.value);
+
+    if (e.target.value === "") {
+      console.log("si");
+      setIsImageValid(null);
+      setInput({
+        ...input,
+        image: imageUrl
+      });
+      return undefined;
+    }
+
+    // Create a new Image object
+    const img = new Image();
+
+    // Set up event handlers for successful load and error
+    img.onload = () => {
+      setIsImageValid(true);
+    };
+
+    img.onerror = () => {
+      setIsImageValid(false);
+    };
+
+    // Set the image source to the provided URL
+    img.src = imageUrl;
+
+    // Update the input state
+    setInput({
+      ...input,
+      image: imageUrl
+    });
+  };
+
+  if (input.image !== "" && isImageValid === true) {
     return (
       <div className={styles.urlImgDiv}>
         <img className={styles.urlImg} src={input.image} alt="invalid img" />
@@ -80,12 +117,12 @@ const DragDropFiles: React.FC<DragDropFilesProps> = ({
   if (File?.name !== null && File?.name !== undefined)
     return (
       <div className={styles.urlImgDiv}>
-        <p>{`${File.name}`}</p>
         <img
           className={styles.urlImg}
           src={URL.createObjectURL(File)}
           alt="a ver si esta"
         />
+        <p className={styles.urlImgP}>{`${File.name}`}</p>
         <div className="actions">
           <button
             onClick={() => {
@@ -97,9 +134,8 @@ const DragDropFiles: React.FC<DragDropFilesProps> = ({
         </div>
       </div>
     );
-
   return (
-    <div className={styles.subContainer}>
+    <div className={styles.imageContainer}>
       <div
         className={styles.dropzone}
         onDragOver={handleDragOver}
@@ -135,14 +171,18 @@ const DragDropFiles: React.FC<DragDropFilesProps> = ({
       <p>Or</p>
       <p>Use an Url</p>
       <input
+        className={styles.urlImgInput}
         type="text"
         value={input.image}
         name={"image"}
         autoComplete="off"
         onChange={(e) => {
-          handleChange(e);
+          handleUrlInputChange(e);
         }}
       />
+      {isImageValid === false && (
+        <p className={styles.danger}>Image url is not valid</p>
+      )}
     </div>
   );
 };

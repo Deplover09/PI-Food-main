@@ -5,18 +5,23 @@ import { useCustomSelector } from "../../../redux/hooks/hooks";
 
 interface SelectDietsFormProps {
   handleSelectFordiets: (diet: dietObj) => void;
-  handleDietsDelete: (e: string) => void;
+  handleDietsDelete: (diet: dietObj) => void;
   dietsSelected: dietObj[];
+  errors: Record<string, string | undefined>;
 }
 
 const SelectDietsForm: React.FC<SelectDietsFormProps> = ({
   handleSelectFordiets,
   handleDietsDelete,
-  dietsSelected
+  dietsSelected,
+  errors
 }) => {
   const { diets: allDiets } = useCustomSelector((state) => state.recipe);
   return (
     <div className={styles.subContainer}>
+      <label className={styles.subTitle} htmlFor={"Diets"}>
+        Diets:
+      </label>
       <select
         className={styles.select}
         onChange={(e) => {
@@ -42,7 +47,7 @@ const SelectDietsForm: React.FC<SelectDietsFormProps> = ({
                 className={styles.crossButton}
                 onClick={(e) => {
                   e.preventDefault();
-                  handleDietsDelete(diet.name);
+                  handleDietsDelete(diet);
                 }}
               >
                 x
@@ -51,6 +56,9 @@ const SelectDietsForm: React.FC<SelectDietsFormProps> = ({
           ))}
         </li>
       </ul>
+      {errors.diets !== undefined && (
+        <p className={styles.danger}>{errors.diets}</p>
+      )}
     </div>
   );
 };

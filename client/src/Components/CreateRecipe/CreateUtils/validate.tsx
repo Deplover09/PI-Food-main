@@ -10,7 +10,6 @@ interface validateProps {
 
 const validate = ({ input, setDisabled, setErrors }: validateProps): void => {
   setDisabled(false);
-
   const errors: Record<string, string | undefined> = {};
   setErrors(errors);
   if (input.name === "") {
@@ -30,7 +29,6 @@ const validate = ({ input, setDisabled, setErrors }: validateProps): void => {
   } else if (!/^([1-9][0-9]?|100)$/.test(input.healthScore.toString())) {
     errors.healthScore = "HealthScore can only be from 1 to 100";
   }
-
   if (input.summary === "") {
     errors.summary = "Summary is required";
     setDisabled(true);
@@ -40,11 +38,13 @@ const validate = ({ input, setDisabled, setErrors }: validateProps): void => {
     setDisabled(true);
   }
 
-  if (input.diets.length === 0 || input.diets[0] === "") {
+  if (input.diets[0] === undefined || input.diets[0] === null) {
+    errors.diets = "At least one diet is required";
+    setDisabled(true);
+  }
+  if (typeof input.steps[0] !== "string") {
     errors.steps = "At least one step is required";
     setDisabled(true);
-  } else {
-    setDisabled(false);
   }
 
   setErrors(errors);
