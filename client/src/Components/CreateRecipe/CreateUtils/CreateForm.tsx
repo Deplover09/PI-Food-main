@@ -3,6 +3,7 @@ import validate from "./validate";
 import SelectDietsForm from "./SelectDietsForm";
 import InputForm from "./InputForm";
 import styles from "../CreateRecipe.module.css";
+import { useNavigate } from "react-router-dom";
 
 import {
   postRecipes,
@@ -43,6 +44,7 @@ const CreateRecipeForm: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string | undefined>>({});
   const [disabled, setDisabled] = useState(true);
   const dispatch = useCustomDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(fetchDiets());
   }, []);
@@ -96,6 +98,7 @@ const CreateRecipeForm: React.FC = () => {
     console.log("post dispached");
 
     alert("Recipe Created Successfully");
+    navigate("/");
   };
 
   return (
@@ -111,7 +114,6 @@ const CreateRecipeForm: React.FC = () => {
         <DragDropFiles
           File={File}
           setFile={setFile}
-          handleChange={handleChange}
           input={input}
           setInput={setInput}
         />

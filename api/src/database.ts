@@ -1,10 +1,18 @@
 import mongoose from "mongoose";
 import { RecipeModel, DietModel } from "./models/exportModels";
 import bulkCreate from "./bulkCreate";
+import dotenv from "dotenv";
+dotenv.config();
+const { mongoDbPassword } = process.env;
+const encodedPassword =
+  typeof mongoDbPassword === "string" && encodeURI(mongoDbPassword);
 
 const runDatabase = async (): Promise<void> => {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/foods");
+    typeof encodedPassword === "string" &&
+      (await mongoose.connect(
+        `mongodb+srv://piFoods:${encodedPassword}@cluster0.fkpbeuc.mongodb.net/?retryWrites=true&w=majority`
+      ));
     console.log("server working");
 
     const collectionsToReset = [RecipeModel, DietModel];

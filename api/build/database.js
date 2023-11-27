@@ -15,9 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const exportModels_1 = require("./models/exportModels");
 const bulkCreate_1 = __importDefault(require("./bulkCreate"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const { mongoDbPassword } = process.env;
+const encodedPassword = typeof mongoDbPassword === "string" && encodeURI(mongoDbPassword);
 const runDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose_1.default.connect("mongodb://127.0.0.1:27017/foods");
+        typeof encodedPassword === "string" &&
+            (yield mongoose_1.default.connect(`mongodb+srv://piFoods:${encodedPassword}@cluster0.fkpbeuc.mongodb.net/?retryWrites=true&w=majority`));
         console.log("server working");
         const collectionsToReset = [exportModels_1.RecipeModel, exportModels_1.DietModel];
         for (const model of collectionsToReset) {

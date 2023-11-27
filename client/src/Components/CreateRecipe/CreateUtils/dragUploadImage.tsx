@@ -6,9 +6,6 @@ import UploadImage from "./uploadImage";
 interface DragDropFilesProps {
   File: File | null;
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
-  handleChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
   input: recipeFormState;
   setInput: React.Dispatch<React.SetStateAction<recipeFormState>>;
 }
@@ -16,7 +13,6 @@ interface DragDropFilesProps {
 const DragDropFiles: React.FC<DragDropFilesProps> = ({
   File,
   setFile,
-  handleChange,
   input,
   setInput
 }) => {
@@ -41,8 +37,9 @@ const DragDropFiles: React.FC<DragDropFilesProps> = ({
 
       // Update state or perform further actions with the dropped file
       setFile(droppedFile);
-      if (File !== null) {
-        UploadImage(File).then((result: string | undefined) => {
+      if (droppedFile !== null) {
+        UploadImage(droppedFile).then((result: string | undefined) => {
+          console.log(result);
           result !== undefined &&
             setInput({
               ...input,
