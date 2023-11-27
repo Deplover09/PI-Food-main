@@ -5,12 +5,12 @@
   border: rgb(255, 255, 255);
   border-width: 1px;
   border-color: rgb(255, 255, 255);
+  flex-wrap: wrap;
 }
 
 .barra li button {
   color: rgb(255, 255, 255);
   background-color: transparent;
-  
   float: center;
   padding: 8px 16px;
   border-radius: 5px;
@@ -21,16 +21,11 @@
   text-align: center;
 }
 
-/* .barra li a.activo {
-  color: white;
-  border-radius: 5px;
-} */
-
-.barra li button:hover{
+.barra li button:hover {
   background-color: gray;
 }
 
-.barra li button:focus{
+.barra li button:focus {
   background-color: rgb(0, 0, 0);
   transform: scale(1.2);
   color: rgb(255, 255, 255);

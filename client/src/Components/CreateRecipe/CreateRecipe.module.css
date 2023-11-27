@@ -19,17 +19,18 @@ input.danger {
   background-attachment: fixed;
 }
 .button {
-  background-color: rgb(0, 0, 0);
-  color: rgb(255, 255, 255);
-  border: rgb(0, 0, 0) solid 3px;
+  font-size: 2rem;
+  margin-top: 1%;
+  margin-left: 2%;
+  display: flex;
+  width: auto;
+  border: #fff solid 3px;
+  padding: 1%;
+  height: auto;
   border-radius: 100px;
-  font-family: Lato, Arial, Helvetica, sans-serif;
-  font-size: 25px;
-  align-self: left;
-  padding: 25px;
-  margin-top: 5px;
-  cursor: pointer;
-  margin-right: 1400px;
+  background-color:  #000000;
+  color:#fff;
+  align-self: start;
 }
 
 .button:hover {
@@ -43,21 +44,23 @@ input.danger {
   align-self: left;
   font-family: Lato, Arial, Helvetica, sans-serif;
   font-size: 50px;
+  color:#fff;
+
 }
 
 .formContainer {
   background: rgba(233, 228, 228, 0.651);
-  width: 45%;
+  width: 75%;
   height: 50%;
   margin: 20px;
   padding-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 10px;   
   padding-left: 5px;
-  padding-right: 5px;
+  padding-right: 5px; 
   box-shadow: 0px 0px 30px 2px rgb(187, 184, 184);
-  font-family: "Dosis", sans-serif;
+  font-family: 'Dosis', sans-serif;
   border-color: rgb(227, 230, 227);
-  border-style: solid;
+  border-style: solid;  
   display: flex;
   flex-direction: column;
 }
@@ -65,6 +68,7 @@ input.danger {
 .subContainer {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .subTitle {
@@ -83,10 +87,7 @@ input.danger {
   width: 90%;
   border: 2px solid rgb(0, 0, 0);
   border-radius: 4px;
-  /*
-  border: none;
-  border-bottom: 2px solid rgb(0, 0, 0);
-  */
+  font-size: 1.5rem;
 }
 
 .subTextBox {
@@ -98,6 +99,7 @@ input.danger {
   border: 2px solid rgb(0, 0, 0);
   border-radius: 4px;
   padding: 6px 10px;
+  font-size: 1.2rem;
 }
 
 .select {
@@ -109,7 +111,7 @@ input.danger {
   font-weight: bold;
   flex-direction: column;
   align-self: center;
-  margin: 15px;
+  margin: 15px
 }
 
 .data {
@@ -118,11 +120,12 @@ input.danger {
   align-self: center;
   margin: 15px;
   color: white;
-  border: hidden;
+  border:hidden;
   background-color: rgb(0, 0, 0);
   border-radius: 100%;
   font-size: 18px;
-  padding: 8px 8px 8px 8px;
+  padding: 8px 8px 8px 8px
+  
 }
 
 .diets {
@@ -140,27 +143,27 @@ input.danger {
   font-family: Lato, Arial, Helvetica, sans-serif;
   background-color: #24721a;
   color: #fff;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 2px rgba(0,0,0,.5); 
   cursor: pointer;
   width: 120px;
   height: 50px;
   font-size: 18px;
-  font-weight: bolder;
+  font-weight:bolder;
   align-self: center;
 }
 
-.submitButton:hover {
+.submitButton:hover{ 
   transition-delay: 0.2s;
   transition: 0.8s;
-  background-color: rgb(88, 10, 189);
+  background-color: #2e9720;
   border: none;
   color: #ffffff;
 }
 
 .error {
   font-family: Lato, Arial, Helvetica, sans-serif;
-  color: #ff0000;
-  text-align: center;
+  color: #FF0000;
+  text-align:center;
   font-size: 14px;
 }
 
@@ -173,8 +176,10 @@ input.danger {
   border-radius: 10px;
   border-color: black;
   margin-top: 5px;
-  margin-left: 30px;
+  margin-left:  30px;
   padding-left: 10px;
+
+
 }
 .crossButton {
   display: flex;
@@ -182,7 +187,7 @@ input.danger {
   align-self: center;
   margin: 15px;
   color: white;
-  border: hidden;
+  border:hidden;
   background-color: rgb(0, 0, 0);
   border-radius: 100%;
   font-size: 16px;
@@ -196,3 +201,130 @@ input.danger {
   border: none;
   color: #000000;
 }
+
+.dropzone {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  height: 30%;
+  width: 100%;
+  border: 5px dashed rgb(117, 112, 112);
+  padding: 2rem;
+}
+.btnSelectImg{
+  width: auto;
+  align-self: center;
+  margin: 5% 0;
+  color:#FFFFFF;
+  font-weight: 700;
+  background-color: rgb(40, 18, 141);
+  padding: 1% 4%;
+  border: none;
+  border-radius:10px;
+  font-size: 0.9rem;
+  width: auto;
+  cursor: pointer;
+  width: auto;
+  margin-right: 2%;
+}
+.btnSelectImg:hover{
+  background-color: rgb(48, 31, 124);
+}
+.urlImgDiv{
+  width: 100%;
+  display: flex;
+  flex-direction:column ;
+  align-items: center;
+}
+.urlImg{
+align-self: center;
+  width: 50%;
+  margin-bottom: 5%;
+  
+}
+.cancelBtn{
+  width: 20%;
+  align-self: center;
+  margin-bottom: 5%;
+}
+.stepContainer{
+  width: 100%;
+  display:flex;
+  align-items: center;
+  margin-top: 2%;
+  flex-direction: column;
+  margin-bottom: 2%;
+}
+.addStepbtn{
+  color:#FFFFFF;
+  font-weight: 700;
+  background-color: #386BC0;
+  padding: 1% 4%;
+  border: none;
+  border-radius:10px;
+  font-size: 0.9rem;
+  width: auto;
+  cursor: pointer;
+  width: auto;
+  margin-right: 2%;
+}
+
+.addStepbtn:hover{
+  background-color: #2660c4;
+}
+
+.stepInput{
+  width: 80%;
+  font-size: 1.1rem;
+  margin-bottom: 1%;
+}
+
+.deleteStepBtn{
+  color:#FFFFFF;
+  font-weight: 700;
+  background-color: #DC4C64;
+  padding: 1% 4%;
+  border: none;
+  border-radius:10px;
+  font-size: 0.9rem;
+  width: auto;
+  cursor: pointer;
+  width: auto;
+}
+.deleteStepBtn:hover{
+  background-color:#cf364f;
+}
+
+.btnsDiv{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.urlImgInput{
+  width: 100%;
+  font-size: 1.2rem;
+}
+
+.imageContainer {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 5%
+}
+
+.urlImgP{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media only screen and (max-width: 750px) {
+  .dropzone{width: 90%;}
+}
+@media only screen and (max-width: 450px) {
+  .dropzone{width: 80%;}
+}
+

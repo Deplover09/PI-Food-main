@@ -1,11 +1,12 @@
 .container {
   display: flex;
   align-items: center;
+  width: auto;
 }
 
 .textBox {
   border-style: double;
-  height: 30px;
+  height: 100%;
   width: 300px;
   font-size: 20px;
   font-weight: 200;
@@ -28,4 +29,32 @@
 .button:hover {
   color: rgb(82, 83, 82);
   cursor: pointer;
+}
+
+@media only screen and (max-width: 1350px) {
+  .container {
+    margin-top: 2%;
+  }
+
+}
+
+@media only screen and (max-width: 1000px) {
+  .container {
+    margin-top: 5%;
+  }
+
+}
+
+@media only screen and (max-width: 500px) {
+  .container {
+    margin-top: 10%;
+  }
+
+}
+@media only screen and (max-width: 450px) {
+
+  .textBox{
+    width: 200px;
+  }
+
 }

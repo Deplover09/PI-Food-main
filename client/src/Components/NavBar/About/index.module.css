@@ -38,15 +38,6 @@
   color: white;
 }
 
-/* Sistema  de columnas para los about-containers */
-.gridAboutContainer {
-  align-self: center;
-  display: inline-grid;
-  column-count: 2;
-  grid-template-columns: 30% auto;
-  column-gap: 3%;
-}
-
 /* Colorinche para links */
 .Link {
   text-decoration: none;
@@ -54,29 +45,36 @@
 }
 
 .container {
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 45% 10% 45%;
   background-color: #0f4650;
-  width: 100%;
+  max-width: 100vw;
   height: 100vh;
 }
 
 /* ..... Card Items ..... */
 
 .cardAboutItems {
-  margin: 13%;
-  text-align: center;
   border-radius: 9px;
+  display: flex;
+  grid-column: 1/2;
+  height: 100%;
+  width: 100%;
+  /* align-items: center;
+  justify-content: end; */
+  flex-direction: column;
+
+
 }
 
 .flipCard {
   border-radius: 30px;
   background-color: transparent;
-  width: 300px;
-  height: 300px;
+  width: 350px;
+  height: 500px;
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  align-self: end;
+  justify-content: end;
 }
 
 /* This container is needed to position the front and back side */
@@ -117,11 +115,13 @@
   background-color: rgb(63, 111, 158);
   color: white;
   transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
 }
 
 .flipImage {
-  width: 300px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
   border-radius: 30px;
 }
 
@@ -132,27 +132,106 @@
   border-radius: 80px;
 }
 
-@media only screen and (max-width: 600px) {
-  .gridAboutContainer {
+.technologiesGridSide{
+  display: flex;
+  grid-column: 3/4;
+    height: 100%;
+  width: 100%;
+  align-items: center;
+  
+  /* justify-content: center; */
+}
+.technologiesContainer{
+  display: flex;
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 800px) {
+  .container{
+    display: flex;
+    flex-direction: column;
+  }
+  .flipCard{
     align-self: center;
-    display: inline-grid;
-    column-count: 2;
-    grid-template-columns: auto;
-    column-gap: 30px;
-    padding: 10px;
+    margin-top: 5%;
   }
 
-  .flipCard {
-    border-radius: 30px;
-    background-color: transparent;
-    width: 250px;
-    height: 450px;
-    perspective: 1000px; /* Remove this if you don't want the 3D effect */
-  }
+}
+.button {
+  margin-left: 2%;
+  margin-top: 2% ;
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  border: rgb(0, 0, 0) solid 3px;
+  border-radius: 100px;
+  font-family: Lato, Arial, Helvetica, sans-serif;
+  font-size: 25px;
+  padding: 25px;
+  margin-top: 5px;
+  cursor: pointer;
+}
 
-  .flipImage {
-    width: 250px;
-    height: 450px;
-    border-radius: 30px;
+.button:hover {
+  background-color: #fff;
+  color: #000000;
+  transition-delay: 0.2s;
+  transition: 0.8s;
+}
+.backButton{
+  display: flex;
+  align-self: flex-start;
+  justify-self: flex-start;
+
+}
+a {
+  text-decoration:none;
+  color:#FFF;
+}
+.buttonA {
+  display: flex;
+  align-self: center;
+  justify-self: center;
+}
+.portfolioBtn {
+  justify-self: center;
+  color:#FFF;
+  font-size: 1.5rem;
+  height: 110%;
+  width: 100%;
+  background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
+border-radius:5px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-transform:uppercase;
+
+font-weight:bold;
+}
+
+.portfolioBtn:after {
+  content:attr(alt);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.portfolioBtn:hover {
+  animation:slidebg 1.5s linear infinite;
+  animation-iteration-count: infinite;
+}
+
+@keyframes slidebg {
+  to {
+    background-position:20vw;
   }
+}
+
+.cardbackSection{
+  border-bottom: #FFF solid 1px;
+}
+
+.namep{
+font-size: 2rem;
+padding-top:0px ;
+margin-top: 5%;
 }
