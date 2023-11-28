@@ -10,7 +10,7 @@ import routes from "./routes/indexRoutes";
 
 const server = express();
 
-server.set("port", process.env.port ?? 3001);
+server.set("port", process.env.Port ?? 3001);
 server.use(morgan("dev"));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));

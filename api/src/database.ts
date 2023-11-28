@@ -3,17 +3,12 @@ import { RecipeModel, DietModel } from "./models/exportModels";
 import bulkCreate from "./bulkCreate";
 import dotenv from "dotenv";
 dotenv.config();
-const { mongoDbPassword } = process.env;
-const encodedPassword =
-  typeof mongoDbPassword === "string" && encodeURI(mongoDbPassword);
+const { MONGODB_URI } = process.env;
 
 const runDatabase = async (): Promise<void> => {
   try {
-    typeof encodedPassword === "string" &&
-      (await mongoose.connect(
-        `mongodb+srv://piFoods:${encodedPassword}@cluster0.fkpbeuc.mongodb.net/?retryWrites=true&w=majority`
-      ));
-    console.log("server working");
+    typeof MONGODB_URI === "string" && (await mongoose.connect(MONGODB_URI));
+    console.log("server database connected");
 
     const collectionsToReset = [RecipeModel, DietModel];
     for (const model of collectionsToReset) {
@@ -37,10 +32,10 @@ const runDatabase = async (): Promise<void> => {
         console.error("Invalid collection name:", collectionName);
       }
     }
-    console.log("bullcreateexecute");
+    console.log("bullcreate execute");
     await bulkCreate();
   } catch (error) {
-    console.error("Error restarting database foods", error);
+    console.error("Error initializing databases", error);
   }
 };
 
