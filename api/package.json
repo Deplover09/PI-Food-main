@@ -4,15 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node build/index.js",
+    "build run": "node build/index.js",
+    "start": "nodemon src/index.ts",
     "dev": "nodemon src/index.ts",
-    "tsc": "tsc",
+    "build": "rimraf dist && tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "pre-commit": [
+    "ts.check",
+    "build",
+    "add-build"
+],
   "devDependencies": {
     "@types/body-parser": "^1.19.3",
     "@types/cookie-parser": "^1.4.4",
@@ -31,14 +37,16 @@
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-promise": "^6.1.1",
     "nodemon": "^3.0.1",
+    "pre-commit": "^1.2.2",
     "prettier": "^3.0.3",
+    "rimraf": "^5.0.5",
     "supertest": "^6.3.3",
     "supertest-session": "^5.0.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@typegoose/typegoose": "^11.7.0",
+    "@typegoose/typegoose": "^12.0.0",
     "axios": "^1.5.1",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
@@ -47,8 +55,7 @@
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "generic-pool": "^3.9.0",
-    "mongodb": "^6.2.0",
-    "mongoose": "^8.0.0",
+    "mongoose": "^8.0.1",
     "morgan": "^1.10.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
@@ -56,3 +63,4 @@
     "sequelize": "^6.33.0"
   }
 }
+
