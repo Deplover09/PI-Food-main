@@ -33,7 +33,7 @@ server.use((error: Error, req: Request, res: Response, next: NextFunction) => {
 
   // Customize the error response as needed
   const statusCode = 500; // Internal Server Error
-  res.status(statusCode).json({
+  res.status(statusCode).send({
     error: {
       message: error.message,
       // You can include additional properties in the response, such as a stack trace
