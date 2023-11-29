@@ -9,7 +9,9 @@
     "dev": "nodemon src/index.ts",
     "build": "rimraf dist && tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "ts.check":"tsc — project tsconfig.json",
+    "add-build": "git add dist"
   },
   "keywords": [],
   "author": "",
