@@ -7,10 +7,14 @@ interface PaginadoProps {
   paginado: (pageNumber: number) => void;
 }
 
-export default function Paginado({ recipesPage, allRecipes, paginado }: PaginadoProps) {
+const Paginado: React.FC<PaginadoProps> = ({
+  recipesPage,
+  allRecipes,
+  paginado
+}) => {
   const pageNumbers: number[] = [];
 
-  if (allRecipes) {
+  if (allRecipes !== null && allRecipes !== undefined) {
     for (let i = 0; i < Math.ceil(allRecipes / recipesPage); i++) {
       pageNumbers.push(i + 1);
     }
@@ -21,10 +25,18 @@ export default function Paginado({ recipesPage, allRecipes, paginado }: Paginado
       <ul className={styles.barra}>
         {pageNumbers?.map((number) => (
           <li key={number}>
-            <button onClick={() => paginado(number)}>{number}</button>
+            <button
+              onClick={() => {
+                paginado(number);
+              }}
+            >
+              {number}
+            </button>
           </li>
         ))}
       </ul>
     </nav>
   );
-}
+};
+
+export default Paginado;
