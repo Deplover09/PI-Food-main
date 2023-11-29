@@ -17,13 +17,11 @@ const exportModels_1 = require("./models/exportModels");
 const bulkCreate_1 = __importDefault(require("./bulkCreate"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-const { mongoDbPassword } = process.env;
-const encodedPassword = typeof mongoDbPassword === "string" && encodeURI(mongoDbPassword);
+const { MONGODB_URI } = process.env;
 const runDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        typeof encodedPassword === "string" &&
-            (yield mongoose_1.default.connect(`mongodb+srv://piFoods:${encodedPassword}@cluster0.fkpbeuc.mongodb.net/?retryWrites=true&w=majority`));
-        console.log("server working");
+        typeof MONGODB_URI === "string" && (yield mongoose_1.default.connect(MONGODB_URI));
+        console.log("server database connected");
         const collectionsToReset = [exportModels_1.RecipeModel, exportModels_1.DietModel];
         for (const model of collectionsToReset) {
             const collectionName = model.collection.name;
@@ -43,11 +41,11 @@ const runDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
                 console.error("Invalid collection name:", collectionName);
             }
         }
-        console.log("bullcreateexecute");
+        console.log("bullcreate execute");
         yield (0, bulkCreate_1.default)();
     }
     catch (error) {
-        console.error("Error restarting database foods", error);
+        console.error("Error initializing databases", error);
     }
 });
 exports.default = runDatabase;

@@ -10,7 +10,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const morgan_1 = __importDefault(require("morgan"));
 const indexRoutes_1 = __importDefault(require("./routes/indexRoutes"));
 const server = (0, express_1.default)();
-server.set("port", (_a = process.env.port) !== null && _a !== void 0 ? _a : 3001);
+server.set("port", (_a = process.env.Port) !== null && _a !== void 0 ? _a : 3001);
 server.use((0, morgan_1.default)("dev"));
 server.use(body_parser_1.default.json());
 server.use(body_parser_1.default.urlencoded({ extended: true, limit: "50mb" }));
@@ -27,7 +27,7 @@ server.use((error, req, res, next) => {
     console.error(`Error: ${error.message}`);
     // Customize the error response as needed
     const statusCode = 500; // Internal Server Error
-    res.status(statusCode).json({
+    res.status(statusCode).send({
         error: {
             message: error.message,
             // You can include additional properties in the response, such as a stack trace
