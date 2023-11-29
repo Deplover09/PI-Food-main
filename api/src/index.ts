@@ -9,5 +9,6 @@ server.listen(server.get("port"), () => {
     })
     .catch((error) => {
       console.error("Error connecting to the database:", error);
+      throw Error(error);
     });
 });
