@@ -25,7 +25,7 @@ interface RecipeApi {
   diets: DietObject[];
 }
 const fetchRecipes = createAsyncThunk("recipe/fetchAllRecipes", async () => {
-  const response = await axios.get("http://localhost:3001/recipes");
+  const response = await axios.get("https://recipes-with-mongodb.onrender.com/recipes");
   const recipeData: RecipeApi[] = response.data;
 
   const dataToReturn = recipeData.map((r: RecipeApi) => {
@@ -46,7 +46,7 @@ const fetchRecipes = createAsyncThunk("recipe/fetchAllRecipes", async () => {
   return dataToReturn;
 });
 const fetchDiets = createAsyncThunk("recipe/fetchAllDiets", async () => {
-  const response = await axios.get("http://localhost:3001/diets");
+  const response = await axios.get("https://recipes-with-mongodb.onrender.com/diets");
   return response.data;
 });
 
@@ -54,7 +54,7 @@ const fetchRecipesByName = createAsyncThunk(
   "recipe/fetchRecipesByName",
   async (name: string) => {
     const response = await axios.get(
-      `http://localhost:3001/recipes?name=${name}`
+      `https://recipes-with-mongodb.onrender.com/recipes?name=${name}`
     );
     const arr = [];
     const recipeData: RecipeApi = response.data;
@@ -77,7 +77,7 @@ const fetchRecipesByName = createAsyncThunk(
 const fecthRecipesByParams = createAsyncThunk(
   "recipe/fetchRecipesByParams",
   async (id: string) => {
-    const response = await axios.get(`http://localhost:3001/recipes/${id}`);
+    const response = await axios.get(`https://recipes-with-mongodb.onrender.com/recipes/${id}`);
     const recipeData: RecipeApi = response.data;
     const dietName = recipeData.diets.map((d) => d.name);
     const dataToReturn: Recipe = {
@@ -106,7 +106,7 @@ const postRecipes = createAsyncThunk(
   "recipe/postRecipes",
   async (recipe: postRecipesProps) => {
     if (recipe.image === "") recipe.image = noImg;
-    const response = await axios.post("http://localhost:3001/recipes", recipe);
+    const response = await axios.post("https://recipes-with-mongodb.onrender.com/recipes", recipe);
     return response.data;
   }
 );
