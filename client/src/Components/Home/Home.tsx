@@ -29,6 +29,11 @@ const Home: React.FC = () => {
   useEffect(() => {
     dispatch(fetchRecipes());
     dispatch(fetchDiets());
+    allRecipes.length === 0 &&
+      setTimeout(() => {
+        dispatch(fetchRecipes());
+        dispatch(fetchDiets());
+      }, 5000);
   }, [dispatch]);
 
   const reloadList = (e: React.MouseEvent): void => {
