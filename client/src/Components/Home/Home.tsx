@@ -21,24 +21,16 @@ const Home: React.FC = () => {
     indexOfFirstRecipe,
     indexOfLastRecipe
   );
+  const [messege, setMessege] = useState<string>(
+    "The server is turning on, please wait 30 seconds"
+  );
 
   const paginado = (pageNumber: number): void => {
     setCurrentPage(pageNumber);
   };
-
   useEffect(() => {
     dispatch(fetchRecipes());
     dispatch(fetchDiets());
-    allRecipes.length === 0 &&
-      setTimeout(() => {
-        dispatch(fetchRecipes());
-        dispatch(fetchDiets());
-      }, 5000);
-    allRecipes.length === 0 &&
-      setTimeout(() => {
-        dispatch(fetchRecipes());
-        dispatch(fetchDiets());
-      }, 10000);
   }, [dispatch]);
 
   const reloadList = (e: React.MouseEvent): void => {
@@ -47,6 +39,15 @@ const Home: React.FC = () => {
     dispatch(dispatch(fetchRecipes));
     setCurrentPage(1);
   };
+  const serverProblem = (): void => {
+    setTimeout(() => {
+      allRecipes.length === 0 &&
+        setMessege(
+          "A minute has passed and the information still has not arrived, there is a problem with the server."
+        );
+    }, 30000);
+  };
+  serverProblem();
   return (
     <div className={styles.background}>
       <NavBar
@@ -58,7 +59,10 @@ const Home: React.FC = () => {
       />
 
       {allRecipes.length === 0 ? (
-        <img className={styles.loading} src={loading} alt="loading" />
+        <div className={styles.loadingDiv}>
+          <img className={styles.loading} src={loading} alt="loading" />
+          <p>{messege}</p>
+        </div>
       ) : (
         <div className={styles.recipeContainer}>
           {currentRecipes?.map((r) => (

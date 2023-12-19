@@ -25,8 +25,43 @@ interface RecipeApi {
   diets: DietObject[];
 }
 const fetchRecipes = createAsyncThunk("recipe/fetchAllRecipes", async () => {
-  const response = await axios.get("https://recipes-with-mongodb.onrender.com/recipes");
-  const recipeData: RecipeApi[] = response.data;
+  let recipeData: RecipeApi[] = [];
+  const fetch = async (): Promise<void> => {
+    const maxRetries = 10;
+    let retryCount = 0;
+
+    const fetchData = async (): Promise<boolean> => {
+      const response = await axios.get(
+        "https://recipes-with-mongodb.onrender.com/recipes"
+      );
+      const recipeDataIsThere: RecipeApi[] = response.data;
+
+      if (recipeDataIsThere.length !== 0) {
+        recipeData = recipeDataIsThere;
+        console.log("Data received:", recipeData);
+        return true;
+      }
+
+      return false;
+    };
+
+    const delay = async (ms: number): Promise<void> => {
+      await new Promise((resolve) => setTimeout(resolve, ms));
+    };
+
+    while (retryCount < maxRetries) {
+      const dataReceived = await fetchData();
+
+      if (dataReceived) {
+        break; // Exit the loop if data is received
+      }
+
+      await delay(5000); // Introduce a delay between iterations
+      retryCount++;
+    }
+  };
+
+  await fetch();
 
   const dataToReturn = recipeData.map((r: RecipeApi) => {
     const dietName = r.diets.map((d) => d.name);
@@ -46,7 +81,9 @@ const fetchRecipes = createAsyncThunk("recipe/fetchAllRecipes", async () => {
   return dataToReturn;
 });
 const fetchDiets = createAsyncThunk("recipe/fetchAllDiets", async () => {
-  const response = await axios.get("https://recipes-with-mongodb.onrender.com/diets");
+  const response = await axios.get(
+    "https://recipes-with-mongodb.onrender.com/diets"
+  );
   return response.data;
 });
 
@@ -77,7 +114,9 @@ const fetchRecipesByName = createAsyncThunk(
 const fecthRecipesByParams = createAsyncThunk(
   "recipe/fetchRecipesByParams",
   async (id: string) => {
-    const response = await axios.get(`https://recipes-with-mongodb.onrender.com/recipes/${id}`);
+    const response = await axios.get(
+      `https://recipes-with-mongodb.onrender.com/recipes/${id}`
+    );
     const recipeData: RecipeApi = response.data;
     const dietName = recipeData.diets.map((d) => d.name);
     const dataToReturn: Recipe = {
@@ -106,7 +145,10 @@ const postRecipes = createAsyncThunk(
   "recipe/postRecipes",
   async (recipe: postRecipesProps) => {
     if (recipe.image === "") recipe.image = noImg;
-    const response = await axios.post("https://recipes-with-mongodb.onrender.com/recipes", recipe);
+    const response = await axios.post(
+      "https://recipes-with-mongodb.onrender.com/recipes",
+      recipe
+    );
     return response.data;
   }
 );
