@@ -7,7 +7,6 @@ I felt really consumed by the project and I learned a lot about the API and how 
 
 Feel free to sort and filter the food recipes or create your own one and see how it works.☻♥
 
-Was realized for Henry bootcamp♥.
 
 #### Technologies used:
 -  React
