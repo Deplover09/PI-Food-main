@@ -20,19 +20,19 @@ Was realized for Henry bootcamp♥.
 
 ## Home
 <p align="center">
-  <img height="500rem" width="1200" src="./client/src/images/Home.ppg"/>
+  <img height="500rem" width="1200" src="./client/src/images/Home.png"/>
 </p>
 
 ## Card Detail
 <p align="center">
-  <img height="500rem" width="1200" src="./client/src/images/CardDetail.ppg"/>
+  <img height="500rem" width="1200" src="./client/src/images/CardDetail.png"/>
 </p>
 
 ## React Form
 <p align="center">
-  <img height="500rem" width="1200" src="./client/src/images/React Form.ppg"/>
+  <img height="500rem" width="1200" src="./client/src/images/React Form.png"/>
 </p>
-## About
+## **About**
 <p align="center">
-  <img height="500rem" width="1200" src="./client/src/images/About.ppg"/>
+  <img height="500rem" width="1200" src="./client/src/images/About.png"/>
 </p>
