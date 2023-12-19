@@ -17,22 +17,22 @@ Was realized for Henry bootcamp♥.
 -  NodeJs
 -  Pure css
 
-## Landing Page
-<p align="center">
-  <img height="500rem" width="1200" src="./client/src/images/Landing page.jpg"/>
-</p>
 
 ## Home
 <p align="center">
-  <img height="500rem" width="1200" src="./client/src/images/Home.jpg"/>
+  <img height="500rem" width="1200" src="./client/src/images/Home.ppg"/>
 </p>
 
 ## Card Detail
 <p align="center">
-  <img height="500rem" width="1200" src="./client/src/images/CardDetail.jpg"/>
+  <img height="500rem" width="1200" src="./client/src/images/CardDetail.ppg"/>
 </p>
 
 ## React Form
 <p align="center">
-  <img height="500rem" width="1200" src="./client/src/images/React Form.jpg"/>
+  <img height="500rem" width="1200" src="./client/src/images/React Form.ppg"/>
+</p>
+## About
+<p align="center">
+  <img height="500rem" width="1200" src="./client/src/images/About.ppg"/>
 </p>
