@@ -32,7 +32,7 @@ Was realized for Henry bootcamp♥.
 <p align="center">
   <img height="500rem" width="1200" src="./client/src/images/React Form.png"/>
 </p>
-## __React Form__
+## React Form
 <p align="center">
   <img height="500rem" width="1200" src="./client/src/images/About.png"/>
 </p>
