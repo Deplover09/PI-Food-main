@@ -13,9 +13,11 @@ Was realized for Henry bootcamp♥.
 -  React
 -  Redux
 -  Express
--  Sequelize - Postgres
+-  MongoDB
+-  Mongoose
 -  NodeJs
 -  Pure css
+-  Typescript
 
 
 ## Home
