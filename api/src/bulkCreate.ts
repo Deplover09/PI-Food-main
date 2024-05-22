@@ -41,7 +41,7 @@ interface allRecipesPropertiesAreThere {
 const getRecipesApi = async (): Promise<infoRecipe[] | []> => {
   try {
     const url = await axios.get(
-      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&addRecipeInformation=true&number=500`
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&instructionsRequired=true&addRecipeInformation=true&number=500`
     );
 
     const results = url.data.results;
@@ -63,7 +63,7 @@ const getRecipesApi = async (): Promise<infoRecipe[] | []> => {
           };
         })
       );
-      // console.log(response[0]);
+      // console.log(response[0], 66);
       return response;
     }
   } catch (error) {
@@ -76,7 +76,7 @@ const getRecipesApi = async (): Promise<infoRecipe[] | []> => {
 const getDietsApi = async (): Promise<string[]> => {
   try {
     const dietsApi = await axios.get(
-      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&number=500&addRecipeInformation=true`
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&number=500&addRecipeInformation=true&addRecipeInformation=true`
     );
     const diets = dietsApi.data.results.map((el: recipeApi) => el.diets);
     return diets;
@@ -176,6 +176,7 @@ const bulkCreate = async (): Promise<void> => {
     await RecipeModel.insertMany(PropertiesForRecipes);
 
     const allRecipes = await RecipeModel.find();
+
     for (const r of allRecipes) {
       r.diets !== undefined &&
         r.diets !== null &&
